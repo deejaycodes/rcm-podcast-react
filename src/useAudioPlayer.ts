@@ -98,10 +98,21 @@ export function useAudioPlayer() {
     return `${m}:${sec.toString().padStart(2, '0')}`
   }
 
+  const stop = useCallback(() => {
+    const a = audioRef.current
+    if (a) { a.pause(); a.src = '' }
+    setCurrent(null)
+    setPlaying(false)
+    setProgress(0)
+    setCurrentTime(0)
+    setDuration(0)
+    setBuffered(0)
+  }, [])
+
   return {
     current, playing, progress, currentTime, duration, volume, muted,
     playbackRate, buffered, loading, preview,
     play, seek, skip, changeVolume, toggleMute, changeRate, fmt,
-    openPreview, closePreview,
+    openPreview, closePreview, stop,
   }
 }

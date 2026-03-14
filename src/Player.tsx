@@ -73,6 +73,7 @@ export function Player({ player, podcastName = 'Christ Revealed Bible Study Podc
           </button>
           <button onClick={() => player.skip(30)} className="w-8 h-8 text-gray-400 hover:text-gray-700 transition hidden sm:flex items-center justify-center text-xs">+30</button>
           <button onClick={() => setExpanded(true)} className="w-8 h-8 text-accent hover:text-purple-800 transition flex items-center justify-center text-lg font-bold">↑</button>
+          <button onClick={() => player.stop()} className="w-8 h-8 text-gray-400 hover:text-gray-700 transition flex items-center justify-center text-xs">✕</button>
         </div>
       </div>
     )
