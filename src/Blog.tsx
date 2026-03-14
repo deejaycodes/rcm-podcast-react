@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { supabase, type BlogPost as BlogPostType } from './supabase'
 import { useMetaTags, ShareButton } from './utils'
 
-const SAMPLE_POSTS: BlogPostType[] = [
+export const SAMPLE_POSTS: BlogPostType[] = [
   {
     id: 'sample-1',
     title: 'Why Every Believer Needs a Personal Bible Study Habit',
@@ -75,6 +75,24 @@ function readTime(content: string) {
   return `${Math.max(1, Math.ceil(words / 200))} min read`
 }
 
+function Skeleton() {
+  return (
+    <div className="animate-pulse">
+      <div className="rounded-2xl bg-gray-100 h-56 mb-8" />
+      <div className="flex flex-col gap-4">
+        <div className="flex gap-5 p-5 rounded-2xl bg-gray-50">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gray-100 rounded-xl flex-shrink-0" />
+          <div className="flex-1 flex flex-col justify-center gap-2">
+            <div className="h-3 bg-gray-100 rounded w-24" />
+            <div className="h-5 bg-gray-100 rounded w-3/4" />
+            <div className="h-3 bg-gray-100 rounded w-full hidden sm:block" />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function BlogList() {
   const [posts, setPosts] = useState<BlogPostType[]>(SAMPLE_POSTS)
   const [loading, setLoading] = useState(true)
@@ -97,14 +115,14 @@ export function BlogList() {
           <h1 className="text-4xl font-black mb-2">Articles & Reflections</h1>
           <p className="text-gray-600 mb-10">Written teachings, devotionals, and reflections on the Word of God.</p>
 
-          {loading && <p className="text-gray-500 text-sm">Loading posts...</p>}
+          {loading && <Skeleton />}
 
           {/* Featured post */}
-          {featured && (
+          {!loading && featured && (
             <Link to={`/blog/${featured.slug}`} className="block mb-8 group no-underline text-gray-900">
               <div className="rounded-2xl border border-purple-100/50 overflow-hidden bg-accent-light hover:bg-accent-mid transition">
                 {featured.cover_image ? (
-                  <img src={featured.cover_image} alt="" className="w-full h-56 sm:h-64 object-cover" />
+                  <img src={featured.cover_image} alt={featured.title} className="w-full h-56 sm:h-64 object-cover" />
                 ) : (
                   <div className="w-full h-48 sm:h-56 bg-gradient-to-br from-accent/10 via-purple-100/30 to-accent-mid flex items-center justify-center">
                     <span className="text-6xl opacity-30">✍️</span>
@@ -125,28 +143,30 @@ export function BlogList() {
           )}
 
           {/* Rest of posts */}
-          <div className="flex flex-col gap-4">
-            {rest.map(post => (
-              <Link key={post.id} to={`/blog/${post.slug}`} className="group flex gap-5 p-5 rounded-2xl border border-purple-100/50 bg-accent-light hover:bg-accent-mid hover:border-accent/15 transition no-underline text-gray-900">
-                {post.cover_image ? (
-                  <img src={post.cover_image} alt="" className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-xl flex-shrink-0" />
-                ) : (
-                  <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-accent/10 to-accent-mid rounded-xl flex items-center justify-center flex-shrink-0">
-                    <span className="text-3xl opacity-30">✍️</span>
+          {!loading && (
+            <div className="flex flex-col gap-4">
+              {rest.map(post => (
+                <Link key={post.id} to={`/blog/${post.slug}`} className="group flex gap-5 p-5 rounded-2xl border border-purple-100/50 bg-accent-light hover:bg-accent-mid hover:border-accent/15 transition no-underline text-gray-900">
+                  {post.cover_image ? (
+                    <img src={post.cover_image} alt={post.title} className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-xl flex-shrink-0" />
+                  ) : (
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-accent/10 to-accent-mid rounded-xl flex items-center justify-center flex-shrink-0">
+                      <span className="text-3xl opacity-30">✍️</span>
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0 flex flex-col justify-center">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="text-xs text-gray-500">{formatDate(post.created_at)}</span>
+                      <span className="text-xs text-gray-400">·</span>
+                      <span className="text-xs text-gray-500">{readTime(post.content)}</span>
+                    </div>
+                    <h3 className="text-lg font-extrabold mb-1 group-hover:text-accent transition leading-snug">{post.title}</h3>
+                    <p className="text-sm text-gray-500 line-clamp-2 hidden sm:block">{post.excerpt}</p>
                   </div>
-                )}
-                <div className="flex-1 min-w-0 flex flex-col justify-center">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-xs text-gray-500">{formatDate(post.created_at)}</span>
-                    <span className="text-xs text-gray-400">·</span>
-                    <span className="text-xs text-gray-500">{readTime(post.content)}</span>
-                  </div>
-                  <h3 className="text-lg font-extrabold mb-1 group-hover:text-accent transition leading-snug">{post.title}</h3>
-                  <p className="text-sm text-gray-500 line-clamp-2 hidden sm:block">{post.excerpt}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          )}
 
           {!posts.length && !loading && (
             <div className="text-center py-12">
@@ -166,7 +186,6 @@ export function BlogPost() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Check samples first
     const sample = SAMPLE_POSTS.find(p => p.slug === slug)
     if (sample) { setPost(sample); setLoading(false); return }
     supabase.from('rcm_blog_posts').select('*').eq('slug', slug).eq('published', true).single()
@@ -179,11 +198,28 @@ export function BlogPost() {
     image: post?.cover_image || undefined,
   })
 
-  if (loading) return <div className="min-h-screen bg-white pt-32 text-center text-gray-500">Loading...</div>
+  if (loading) return (
+    <div className="min-h-screen bg-white pt-28">
+      <div className="max-w-2xl mx-auto px-5 animate-pulse">
+        <div className="h-4 bg-gray-100 rounded w-24 mb-8" />
+        <div className="h-64 bg-gray-100 rounded-2xl mb-8" />
+        <div className="h-8 bg-gray-100 rounded w-3/4 mb-3" />
+        <div className="h-4 bg-gray-100 rounded w-1/2 mb-8" />
+        <div className="space-y-3">
+          <div className="h-4 bg-gray-100 rounded" />
+          <div className="h-4 bg-gray-100 rounded w-5/6" />
+          <div className="h-4 bg-gray-100 rounded w-4/5" />
+        </div>
+      </div>
+    </div>
+  )
+
   if (!post) return (
     <div className="min-h-screen bg-white pt-32 text-center px-5">
-      <p className="text-gray-500 mb-4">Post not found.</p>
-      <Link to="/blog" className="text-accent text-sm font-medium no-underline hover:underline">← Back to blog</Link>
+      <span className="text-5xl block mb-4">🔍</span>
+      <p className="text-gray-600 font-semibold mb-2">Post not found</p>
+      <p className="text-gray-400 text-sm mb-6">This article may have been removed or the link is incorrect.</p>
+      <Link to="/blog" className="bg-accent text-white px-5 py-2.5 rounded-full font-semibold text-sm no-underline hover:-translate-y-0.5 transition">← Back to Blog</Link>
     </div>
   )
 
@@ -191,12 +227,15 @@ export function BlogPost() {
     <div className="min-h-screen bg-white text-gray-900">
       <article className="pt-28 pb-16">
         <div className="max-w-2xl mx-auto px-5">
-          {/* Back + meta */}
-          <Link to="/blog" className="text-accent text-sm font-medium no-underline hover:underline mb-8 inline-block">← Back to blog</Link>
+          {/* Back nav — prominent on mobile */}
+          <Link to="/blog" className="inline-flex items-center gap-1.5 text-accent text-sm font-semibold no-underline hover:underline mb-8 py-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            Back to Blog
+          </Link>
 
           {/* Cover */}
           {post.cover_image && (
-            <img src={post.cover_image} alt="" className="w-full h-64 sm:h-80 object-cover rounded-2xl mb-8" />
+            <img src={post.cover_image} alt={post.title} className="w-full h-64 sm:h-80 object-cover rounded-2xl mb-8" />
           )}
 
           {/* Header */}
@@ -216,7 +255,6 @@ export function BlogPost() {
             </div>
           </div>
 
-          {/* Divider */}
           <div className="h-px bg-gray-100 mb-8" />
 
           {/* Content */}
@@ -231,7 +269,6 @@ export function BlogPost() {
             [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-5 [&_ol_li]:text-gray-700 [&_ol_li]:mb-2 [&_ol_li]:leading-relaxed
           " dangerouslySetInnerHTML={{ __html: post.content }} />
 
-          {/* Bottom divider */}
           <div className="h-px bg-gray-100 mt-10 mb-8" />
 
           {/* Author card */}
@@ -243,7 +280,6 @@ export function BlogPost() {
             </div>
           </div>
 
-          {/* More posts CTA */}
           <div className="text-center mt-10">
             <Link to="/blog" className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-semibold shadow-lg shadow-accent/20 hover:-translate-y-0.5 transition no-underline">
               ← More Articles

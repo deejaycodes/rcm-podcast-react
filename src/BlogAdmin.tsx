@@ -56,6 +56,7 @@ export function BlogAdmin() {
           <h2 className="text-2xl font-extrabold mb-6">{editing.id ? 'Edit Post' : 'New Post'}</h2>
           <div className="flex flex-col gap-4">
             <input value={editing.title || ''} onChange={e => setEditing({ ...editing, title: e.target.value })} placeholder="Title" className="px-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:border-accent" />
+            {editing.title && <p className="text-xs text-gray-400 -mt-2 ml-1">URL: /blog/{editing.slug || editing.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}</p>}
             <input value={editing.excerpt || ''} onChange={e => setEditing({ ...editing, excerpt: e.target.value })} placeholder="Excerpt (short summary)" className="px-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:border-accent" />
             <input value={editing.cover_image || ''} onChange={e => setEditing({ ...editing, cover_image: e.target.value })} placeholder="Cover image URL (optional)" className="px-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:border-accent" />
             <ReactQuill theme="snow" value={editing.content || ''} onChange={v => setEditing({ ...editing, content: v })} className="bg-white rounded-xl [&_.ql-container]:min-h-[200px] [&_.ql-container]:text-sm" />

@@ -1,4 +1,7 @@
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { SAMPLE_POSTS } from './Blog'
+import { useAudioPlayer } from './useAudioPlayer'
 
 const programs = [
   {
@@ -19,7 +22,18 @@ const programs = [
   },
 ]
 
-export function Landing() {
+export function Landing({ player }: { player: ReturnType<typeof useAudioPlayer> }) {
+  const [showTop, setShowTop] = useState(false)
+
+  useEffect(() => {
+    const handler = () => setShowTop(window.scrollY > 400)
+    window.addEventListener('scroll', handler, { passive: true })
+    return () => window.removeEventListener('scroll', handler)
+  }, [])
+
+  // Use first 2 sample posts for preview
+  const recentPosts = SAMPLE_POSTS.slice(0, 2)
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Hero */}
@@ -37,10 +51,10 @@ export function Landing() {
             Bible study teachings and prayer sessions to help you deepen your relationship with God through His Word and prayer.
           </p>
           <div className="flex gap-3 justify-center flex-wrap">
-            <Link to="/bible-study" className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-semibold shadow-lg shadow-accent/20 hover:-translate-y-0.5 transition no-underline">
+            <Link to="/bible-study" className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-semibold shadow-lg shadow-accent/20 hover:-translate-y-0.5 active:scale-[0.98] transition no-underline">
               <span className="text-xs">▶</span> Listen to Bible Study
             </Link>
-            <Link to="/school-of-prayer" className="inline-flex items-center bg-accent/5 border border-accent/10 text-gray-700 px-6 py-3 rounded-full font-semibold hover:bg-accent/10 transition no-underline">
+            <Link to="/school-of-prayer" className="inline-flex items-center bg-accent/5 border border-accent/10 text-gray-700 px-6 py-3 rounded-full font-semibold hover:bg-accent/10 active:scale-[0.98] transition no-underline">
               🙏 School of Prayer
             </Link>
           </div>
@@ -54,7 +68,7 @@ export function Landing() {
           <h2 className="text-3xl font-extrabold mb-8">Listen & Learn</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {programs.map(p => (
-              <Link key={p.link} to={p.link} className="group block p-6 rounded-2xl border border-purple-100/50 bg-accent-light hover:bg-accent-mid hover:border-accent/15 transition no-underline text-gray-900">
+              <Link key={p.link} to={p.link} className="group block p-6 rounded-2xl border border-purple-100/50 bg-accent-light hover:bg-accent-mid hover:border-accent/15 active:scale-[0.98] transition no-underline text-gray-900">
                 <div className={`w-16 h-16 bg-gradient-to-br ${p.color} rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-105 transition`}>
                   {p.icon}
                 </div>
@@ -68,14 +82,27 @@ export function Landing() {
         </div>
       </section>
 
-      {/* Blog preview */}
+      {/* Blog preview — Fix #11: show actual recent post titles */}
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-5">
           <span className="text-xs font-semibold uppercase tracking-[2.5px] text-accent block mb-1">Blog</span>
           <h2 className="text-3xl font-extrabold mb-3">Articles & Reflections</h2>
           <p className="text-gray-600 mb-6">Written teachings, devotionals, and reflections on the Word of God.</p>
-          <Link to="/blog" className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-semibold shadow-lg shadow-accent/20 hover:-translate-y-0.5 transition no-underline">
-            Read the Blog →
+          <div className="flex flex-col gap-3 mb-6">
+            {recentPosts.map(post => (
+              <Link key={post.id} to={`/blog/${post.slug}`} className="group flex items-center gap-4 p-4 rounded-2xl border border-purple-100/50 bg-accent-light hover:bg-accent-mid active:scale-[0.98] transition no-underline text-gray-900">
+                {post.cover_image && (
+                  <img src={post.cover_image} alt={post.title} className="w-16 h-16 object-cover rounded-xl flex-shrink-0" />
+                )}
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-bold group-hover:text-accent transition truncate">{post.title}</h3>
+                  <p className="text-xs text-gray-500 truncate">{post.excerpt}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <Link to="/blog" className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-semibold shadow-lg shadow-accent/20 hover:-translate-y-0.5 active:scale-[0.98] transition no-underline">
+            Read All Articles →
           </Link>
         </div>
       </section>
@@ -94,19 +121,39 @@ export function Landing() {
         </div>
       </section>
 
-      {/* Subscribe */}
+      {/* Subscribe — Fix #9: real platform links */}
       <section className="py-20 text-center">
         <div className="max-w-3xl mx-auto px-5">
           <span className="text-xs font-semibold uppercase tracking-[2.5px] text-accent block mb-1">Stay Connected</span>
           <h2 className="text-3xl font-extrabold mb-2">Never Miss a Teaching</h2>
-          <p className="text-gray-600 mb-8 text-lg">Available on all major podcast platforms.</p>
+          <p className="text-gray-600 mb-8 text-lg">Subscribe on your favourite podcast platform.</p>
+          <div className="flex gap-3 justify-center flex-wrap mb-6">
+            <a href="https://open.spotify.com/show/4VnpGdSCkRyJr0tgHELfwP" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 px-5 py-3.5 bg-[#1DB954]/10 border border-[#1DB954]/20 rounded-2xl no-underline text-gray-900 font-semibold hover:border-[#1DB954]/40 hover:-translate-y-0.5 active:scale-[0.98] transition shadow-sm">
+              🎧 Spotify
+            </a>
+            <a href="https://podcasts.apple.com/podcast/id1772578109" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 px-5 py-3.5 bg-purple-50 border border-purple-100 rounded-2xl no-underline text-gray-900 font-semibold hover:border-purple-200 hover:-translate-y-0.5 active:scale-[0.98] transition shadow-sm">
+              🎙 Apple Podcasts
+            </a>
+          </div>
+          <p className="text-sm text-gray-400 mb-4">Or listen right here:</p>
           <div className="flex gap-3 justify-center flex-wrap">
-            <Link to="/bible-study" className="flex items-center gap-2 px-5 py-3.5 bg-accent-light border border-purple-100/50 rounded-2xl no-underline text-gray-900 font-semibold hover:border-accent/25 hover:-translate-y-0.5 transition shadow-sm">📖 Bible Study Episodes</Link>
-            <Link to="/school-of-prayer" className="flex items-center gap-2 px-5 py-3.5 bg-accent-light border border-purple-100/50 rounded-2xl no-underline text-gray-900 font-semibold hover:border-accent/25 hover:-translate-y-0.5 transition shadow-sm">🙏 School of Prayer</Link>
-            <Link to="/blog" className="flex items-center gap-2 px-5 py-3.5 bg-accent-light border border-purple-100/50 rounded-2xl no-underline text-gray-900 font-semibold hover:border-accent/25 hover:-translate-y-0.5 transition shadow-sm">✍️ Read the Blog</Link>
+            <Link to="/bible-study" className="flex items-center gap-2 px-5 py-3.5 bg-accent-light border border-purple-100/50 rounded-2xl no-underline text-gray-900 font-semibold hover:border-accent/25 hover:-translate-y-0.5 active:scale-[0.98] transition shadow-sm">📖 Bible Study</Link>
+            <Link to="/school-of-prayer" className="flex items-center gap-2 px-5 py-3.5 bg-accent-light border border-purple-100/50 rounded-2xl no-underline text-gray-900 font-semibold hover:border-accent/25 hover:-translate-y-0.5 active:scale-[0.98] transition shadow-sm">🙏 School of Prayer</Link>
+            <Link to="/blog" className="flex items-center gap-2 px-5 py-3.5 bg-accent-light border border-purple-100/50 rounded-2xl no-underline text-gray-900 font-semibold hover:border-accent/25 hover:-translate-y-0.5 active:scale-[0.98] transition shadow-sm">✍️ Blog</Link>
           </div>
         </div>
       </section>
+
+      {/* Fix #18 — Scroll to top button */}
+      {showTop && (
+        <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-20 right-5 z-30 w-10 h-10 bg-accent text-white rounded-full shadow-lg shadow-accent/25 flex items-center justify-center hover:scale-110 active:scale-95 transition animate-slide-up"
+          aria-label="Scroll to top">
+          ↑
+        </button>
+      )}
     </div>
   )
 }

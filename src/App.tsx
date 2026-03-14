@@ -7,19 +7,33 @@ import { BlogAdmin } from './BlogAdmin'
 import { ScrollToTop, PageTitle } from './utils'
 import { useAudioPlayer } from './useAudioPlayer'
 import { Player } from './Player'
+import { Link } from 'react-router-dom'
 
 const BIBLE_STUDY_RSS = 'https://anchor.fm/s/7431d14c/podcast/rss'
 const PRAYER_RSS = ''
 
+function NotFound() {
+  return (
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-5 text-center">
+      <span className="text-6xl mb-4">🔍</span>
+      <h1 className="text-3xl font-black mb-2">Page Not Found</h1>
+      <p className="text-gray-600 mb-6">The page you're looking for doesn't exist or has been moved.</p>
+      <Link to="/" className="bg-accent text-white px-6 py-3 rounded-full font-semibold shadow-lg shadow-accent/20 hover:-translate-y-0.5 transition no-underline">← Back to Home</Link>
+    </div>
+  )
+}
+
 export default function App() {
   const player = useAudioPlayer()
+  // Derive podcast name from what's currently playing
+  const podcastName = player.current?.audioUrl?.includes('7431d14c') ? 'Christ Revealed Bible Study Podcast' : 'School of Prayer — RCM'
 
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Nav />
       <Routes>
-        <Route path="/" element={<><PageTitle title="RCM — Revelation of Christ Ministries" /><Landing /><Footer /></>} />
+        <Route path="/" element={<><PageTitle title="RCM — Revelation of Christ Ministries" /><Landing player={player} /><Footer /></>} />
         <Route path="/bible-study" element={
           <>
             <PodcastPage
@@ -51,9 +65,12 @@ export default function App() {
         <Route path="/blog" element={<><BlogList /><Footer /></>} />
         <Route path="/blog/:slug" element={<><BlogPost /><Footer /></>} />
         <Route path="/admin/blog" element={<BlogAdmin />} />
+        <Route path="*" element={<><PageTitle title="Not Found — RCM" /><NotFound /><Footer /></>} />
       </Routes>
+      {/* Mini player spacer — prevents content from being hidden behind fixed player */}
+      {player.current && <div className="h-24" />}
       {/* Global player — persists across all pages */}
-      <Player player={player} />
+      <Player player={player} podcastName={podcastName} />
     </BrowserRouter>
   )
 }

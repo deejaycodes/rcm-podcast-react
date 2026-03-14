@@ -38,7 +38,7 @@ export async function fetchRSSFeed(url: string): Promise<Episode[]> {
       title,
       description: desc.replace(/<[^>]*>/g, '').slice(0, 200),
       audioUrl,
-      date: pubDate ? new Date(pubDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '',
+      date: pubDate ? new Date(pubDate).toLocaleDateString('en-NG', { day: 'numeric', month: 'long', year: 'numeric' }) : '',
       duration: formatDuration(duration),
       image: image || undefined,
       episodeNumber: epNum ? parseInt(epNum) : items.length - i,

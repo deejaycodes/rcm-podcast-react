@@ -59,8 +59,8 @@ export function Player({ player, podcastName = 'Christ Revealed Bible Study Podc
             player.seek(Math.max(0, Math.min(100, ((e.touches[0].clientX - rect.left) / rect.width) * 100)))
           }}
         >
-          <div className="h-full bg-purple-200 absolute left-0 top-0 pointer-events-none" style={{ width: `${player.buffered}%` }} />
-          <div className="h-full bg-accent absolute left-0 top-0 z-10 pointer-events-none" style={{ width: `${player.progress}%` }} />
+          <div className="h-full bg-purple-200 absolute left-0 top-0 pointer-events-none seek-fill" style={{ width: `${player.buffered}%` }} />
+          <div className="h-full bg-accent absolute left-0 top-0 z-10 pointer-events-none seek-fill" style={{ width: `${player.progress}%` }} />
         </div>
         <div className="max-w-3xl mx-auto px-4 py-2.5 flex items-center gap-3">
           <div className="w-12 h-12 bg-gradient-to-br from-accent to-purple-700 rounded-xl flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 cursor-pointer" onClick={() => setExpanded(true)}>RCM</div>
@@ -68,13 +68,13 @@ export function Player({ player, podcastName = 'Christ Revealed Bible Study Podc
             <p className="text-sm font-semibold truncate">{ep.title}</p>
             <p className="text-[11px] text-gray-400">{player.fmt(player.currentTime)} / {player.fmt(player.duration)}</p>
           </div>
-          <button onClick={() => player.skip(-15)} className="w-8 h-8 text-gray-400 hover:text-gray-700 transition hidden sm:flex items-center justify-center text-xs">-15</button>
-          <button onClick={() => player.play(ep)} className="w-11 h-11 rounded-full bg-accent text-white flex items-center justify-center flex-shrink-0 shadow-lg shadow-accent/20 text-sm">
+          <button onClick={() => player.skip(-15)} className="w-8 h-8 text-gray-400 hover:text-gray-700 transition hidden sm:flex items-center justify-center text-xs" aria-label="Rewind 15 seconds">-15</button>
+          <button onClick={() => player.play(ep)} className="w-11 h-11 rounded-full bg-accent text-white flex items-center justify-center flex-shrink-0 shadow-lg shadow-accent/20 text-sm active:scale-95 transition" aria-label={player.playing ? 'Pause' : 'Play'}>
             {player.loading ? '⏳' : player.playing ? '⏸' : '▶'}
           </button>
-          <button onClick={() => player.skip(30)} className="w-8 h-8 text-gray-400 hover:text-gray-700 transition hidden sm:flex items-center justify-center text-xs">+30</button>
-          <button onClick={() => setExpanded(true)} className="w-8 h-8 text-accent hover:text-purple-800 transition flex items-center justify-center text-lg font-bold">↑</button>
-          <button onClick={() => player.stop()} className="w-8 h-8 text-gray-400 hover:text-gray-700 transition flex items-center justify-center text-xs">✕</button>
+          <button onClick={() => player.skip(30)} className="w-8 h-8 text-gray-400 hover:text-gray-700 transition hidden sm:flex items-center justify-center text-xs" aria-label="Forward 30 seconds">+30</button>
+          <button onClick={() => setExpanded(true)} className="w-8 h-8 text-accent hover:text-purple-800 transition flex items-center justify-center text-lg font-bold" aria-label="Expand player">↑</button>
+          <button onClick={() => player.stop()} className="w-8 h-8 text-gray-400 hover:text-gray-700 transition flex items-center justify-center text-xs" aria-label="Close player">✕</button>
         </div>
       </div>
     )
@@ -125,8 +125,8 @@ export function Player({ player, podcastName = 'Christ Revealed Bible Study Podc
                 player.seek(Math.max(0, Math.min(100, ((touch.clientX - rect.left) / rect.width) * 100)))
               }}
             >
-              <div className="h-full bg-gray-200 absolute rounded-full pointer-events-none" style={{ width: `${player.buffered}%` }} />
-              <div className="h-full bg-accent rounded-full relative z-10 pointer-events-none" style={{ width: `${player.progress}%` }} />
+              <div className="h-full bg-gray-200 absolute rounded-full pointer-events-none seek-fill" style={{ width: `${player.buffered}%` }} />
+              <div className="h-full bg-accent rounded-full relative z-10 pointer-events-none seek-fill" style={{ width: `${player.progress}%` }} />
             </div>
             <div className="flex justify-between mt-1.5">
               <span className="text-[11px] text-gray-500 tabular-nums">{player.fmt(player.currentTime)}</span>

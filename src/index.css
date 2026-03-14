@@ -7,10 +7,33 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Fix #8 — Visible focus styles for keyboard navigation (WCAG 2.1 AA) */
+*:focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Fix #15 — Smooth seek bar transitions */
+.seek-fill {
+  transition: width 0.15s linear;
+}
+
 @keyframes slide-up {
   from { transform: translateY(100%); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
+}
+
+/* Fix #5 — Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-pulse > div {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
 }
