@@ -41,7 +41,7 @@ export function CMS() {
     <div className="min-h-screen bg-[#13111c] flex">
       {/* Mobile menu toggle */}
       <button onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-accent-dark border border-white/10 rounded-xl flex items-center justify-center text-white text-sm">
+        className="md:hidden fixed top-4 right-4 z-50 w-10 h-10 bg-accent-dark border border-white/10 rounded-xl flex items-center justify-center text-white text-sm">
         {sidebarOpen ? '✕' : '☰'}
       </button>
 

@@ -37,7 +37,7 @@ export function AdminBlog() {
   if (editing) {
     return (
       <>
-        <div className="flex items-center justify-between mb-6 mt-4">
+        <div className="flex items-center justify-between mb-6">
           <button onClick={() => setEditing(null)} className="text-purple-400 text-sm font-semibold hover:text-white transition">← Back to Posts</button>
           <button onClick={save} disabled={saving}
             className="bg-accent text-white px-5 py-2 rounded-xl font-semibold text-sm hover:bg-accent/90 disabled:opacity-50 transition">
@@ -95,7 +95,7 @@ export function AdminBlog() {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-6 mt-4">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-extrabold text-white mb-0.5">Blog Posts</h1>
           <p className="text-sm text-gray-500">{posts.length} post{posts.length !== 1 ? 's' : ''}</p>
