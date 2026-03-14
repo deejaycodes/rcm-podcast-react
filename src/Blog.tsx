@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { supabase, type BlogPost as BlogPostType } from './supabase'
 import { useMetaTags, ShareButton } from './utils'
 import { ShareableContent } from './ShareableContent'
@@ -182,7 +182,7 @@ export function BlogList() {
 }
 
 export function BlogPost() {
-  const slug = window.location.pathname.split('/blog/')[1]
+  const { slug } = useParams<{ slug: string }>()
   const [post, setPost] = useState<BlogPostType | null>(null)
   const [loading, setLoading] = useState(true)
 
