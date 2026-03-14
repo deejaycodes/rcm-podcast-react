@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/player.tsx","./src/main.tsx","./src/rss.ts","./src/useaudioplayer.ts","./src/vite-env.d.ts"],"version":"5.9.3"}
+{"root":["./src/app.tsx","./src/blog.tsx","./src/blogadmin.tsx","./src/landing.tsx","./src/layout.tsx","./src/player.tsx","./src/podcastpage.tsx","./src/main.tsx","./src/rss.ts","./src/supabase.ts","./src/useaudioplayer.ts","./src/vite-env.d.ts"],"version":"5.9.3"}
