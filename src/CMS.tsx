@@ -81,7 +81,7 @@ export function CMS() {
 
       {/* Main */}
       <main className="flex-1 min-h-screen">
-        <div className="max-w-4xl mx-auto px-5 md:px-8 pt-16 md:pt-10 pb-8 md:pb-10">
+        <div className="max-w-4xl mx-auto px-5 md:px-8 pt-16 md:pt-16 pb-8 md:pb-10">
           {tab === 'dashboard' && <Dashboard onNav={setTab} />}
           {tab === 'blog' && <AdminBlog />}
           {tab === 'programmes' && <AdminProgrammes />}
