@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase, type BlogPost as BlogPostType } from './supabase'
+import { useMetaTags, ShareButton } from './utils'
 
 const SAMPLE_POSTS: BlogPostType[] = [
   {
@@ -86,6 +87,8 @@ export function BlogList() {
   const featured = posts[0]
   const rest = posts.slice(1)
 
+  useMetaTags({ title: 'Blog — RCM', description: 'Written teachings, devotionals, and reflections on the Word of God from Revelation of Christ Ministries.' })
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <section className="pt-32 pb-16">
@@ -170,9 +173,11 @@ export function BlogPost() {
       .then(({ data }) => { if (data) setPost(data); setLoading(false) })
   }, [slug])
 
-  useEffect(() => {
-    if (post) document.title = `${post.title} — RCM Blog`
-  }, [post])
+  useMetaTags({
+    title: post ? `${post.title} — RCM Blog` : 'Blog — RCM',
+    description: post?.excerpt || 'Read articles from Revelation of Christ Ministries.',
+    image: post?.cover_image || undefined,
+  })
 
   if (loading) return <div className="min-h-screen bg-white pt-32 text-center text-gray-500">Loading...</div>
   if (!post) return (
@@ -197,7 +202,7 @@ export function BlogPost() {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl sm:text-4xl font-black leading-tight mb-3">{post.title}</h1>
-            <div className="flex items-center gap-3 text-sm text-gray-500">
+            <div className="flex items-center gap-3 text-sm text-gray-500 flex-wrap">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center text-white text-xs font-bold">DO</div>
                 <span className="font-medium text-gray-700">Deji Odetayo</span>
@@ -206,6 +211,8 @@ export function BlogPost() {
               <span>{formatDate(post.created_at)}</span>
               <span>·</span>
               <span>{readTime(post.content)}</span>
+              <span>·</span>
+              <ShareButton url={`https://rcm-podcast-react.vercel.app/blog/${post.slug}`} title={post.title} />
             </div>
           </div>
 

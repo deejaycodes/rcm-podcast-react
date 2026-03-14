@@ -22,7 +22,6 @@ export default function App() {
         <Route path="/" element={<><PageTitle title="RCM — Revelation of Christ Ministries" /><Landing /><Footer /></>} />
         <Route path="/bible-study" element={
           <>
-            <PageTitle title="Bible Study — RCM" />
             <PodcastPage
               player={player}
               title="Christ Revealed Bible Study"
@@ -37,7 +36,6 @@ export default function App() {
         } />
         <Route path="/school-of-prayer" element={
           <>
-            <PageTitle title="School of Prayer — RCM" />
             <PodcastPage
               player={player}
               title="School of Prayer"
@@ -50,7 +48,7 @@ export default function App() {
             <Footer />
           </>
         } />
-        <Route path="/blog" element={<><PageTitle title="Blog — RCM" /><BlogList /><Footer /></>} />
+        <Route path="/blog" element={<><BlogList /><Footer /></>} />
         <Route path="/blog/:slug" element={<><BlogPost /><Footer /></>} />
         <Route path="/admin/blog" element={<BlogAdmin />} />
       </Routes>
