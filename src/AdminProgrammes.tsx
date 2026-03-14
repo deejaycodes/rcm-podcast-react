@@ -1,30 +1,31 @@
 import { useState, useEffect } from 'react'
-import { getLocal, setLocal, Programme } from './supabase'
-
-const DEFAULTS: Programme[] = [
-  { id: '1', title: 'Christ Revealed Bible Study', subtitle: 'Christ Revealed Bible Study Podcast', description: "Your personal understanding of God's Word is pivotal to your relationship with Him.", icon: '📖', rss_url: 'https://anchor.fm/s/7431d14c/podcast/rss', color: 'from-accent to-purple-700', verse_text: 'To open their eyes, and to turn them from darkness to light, and from the power of Satan unto God', verse_ref: 'Acts 26:18', sort_order: 0, active: true },
-  { id: '2', title: 'School of Prayer', subtitle: 'Learning to Pray Effectively', description: 'A weekly programme where we learn about prayer and we pray.', icon: '🙏', rss_url: '', color: 'from-amber-500 to-orange-600', verse_text: 'Pray without ceasing', verse_ref: '1 Thessalonians 5:17', sort_order: 1, active: true },
-]
+import { supabase, Programme } from './supabase'
 
 export function AdminProgrammes() {
-  const [progs, setProgs] = useState<Programme[]>(() => getLocal('programmes', DEFAULTS))
-  const [editing, setEditing] = useState<Programme | null>(null)
+  const [progs, setProgs] = useState<Programme[]>([])
+  const [editing, setEditing] = useState<Partial<Programme> | null>(null)
+  const [saving, setSaving] = useState(false)
 
-  useEffect(() => { setLocal('programmes', progs) }, [progs])
+  const load = () => supabase.from('rcm_programmes').select('*').order('sort_order').then(({ data }) => { if (data) setProgs(data) })
+  useEffect(() => { load() }, [])
 
-  const save = () => {
+  const save = async () => {
     if (!editing) return
-    setProgs(prev => {
-      const exists = prev.find(p => p.id === editing.id)
-      if (exists) return prev.map(p => p.id === editing.id ? editing : p)
-      return [...prev, { ...editing, id: Date.now().toString(), sort_order: prev.length }]
-    })
+    setSaving(true)
+    if (editing.id) {
+      await supabase.from('rcm_programmes').update(editing).eq('id', editing.id)
+    } else {
+      await supabase.from('rcm_programmes').insert({ ...editing, sort_order: progs.length })
+    }
+    setSaving(false)
     setEditing(null)
+    load()
   }
 
-  const del = (id: string) => {
+  const del = async (id: string) => {
     if (!confirm('Delete this programme?')) return
-    setProgs(prev => prev.filter(p => p.id !== id))
+    await supabase.from('rcm_programmes').delete().eq('id', id)
+    load()
   }
 
   if (editing) {
@@ -32,7 +33,9 @@ export function AdminProgrammes() {
       <>
         <div className="flex items-center justify-between mb-6">
           <button onClick={() => setEditing(null)} className="text-purple-400 text-sm font-semibold hover:text-white transition">← Back</button>
-          <button onClick={save} className="bg-accent text-white px-5 py-2 rounded-xl font-semibold text-sm hover:bg-accent/90 transition">Save Programme</button>
+          <button onClick={save} disabled={saving} className="bg-accent text-white px-5 py-2 rounded-xl font-semibold text-sm hover:bg-accent/90 disabled:opacity-50 transition">
+            {saving ? 'Saving...' : 'Save Programme'}
+          </button>
         </div>
         <h2 className="text-xl font-extrabold text-white mb-6">{editing.id ? 'Edit' : 'New'} Programme</h2>
         <div className="flex flex-col gap-4">
@@ -55,7 +58,7 @@ export function AdminProgrammes() {
             <div className={`w-10 h-6 rounded-full transition flex items-center px-0.5 ${editing.active ? 'bg-accent' : 'bg-white/10'}`}>
               <div className={`w-5 h-5 bg-white rounded-full transition-transform ${editing.active ? 'translate-x-4' : ''}`} />
             </div>
-            <input type="checkbox" checked={editing.active} onChange={e => setEditing({ ...editing, active: e.target.checked })} className="hidden" />
+            <input type="checkbox" checked={editing.active ?? true} onChange={e => setEditing({ ...editing, active: e.target.checked })} className="hidden" />
             {editing.active ? 'Active' : 'Inactive'}
           </label>
         </div>
@@ -70,7 +73,7 @@ export function AdminProgrammes() {
           <h1 className="text-2xl font-extrabold text-white mb-0.5">Programmes</h1>
           <p className="text-sm text-gray-500">{progs.length} programme{progs.length !== 1 ? 's' : ''}</p>
         </div>
-        <button onClick={() => setEditing({ id: '', title: '', subtitle: '', description: '', icon: '🎙', rss_url: '', color: 'from-accent to-purple-700', verse_text: '', verse_ref: '', sort_order: progs.length, active: true })}
+        <button onClick={() => setEditing({ title: '', subtitle: '', description: '', icon: '🎙', rss_url: '', color: 'from-accent to-purple-700', verse_text: '', verse_ref: '', active: true })}
           className="bg-accent text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-accent/90 transition">+ New Programme</button>
       </div>
       <div className="flex flex-col gap-2">
@@ -88,6 +91,7 @@ export function AdminProgrammes() {
           </div>
         ))}
       </div>
+      {!progs.length && <p className="text-center text-gray-600 text-sm mt-12">No programmes yet.</p>}
     </>
   )
 }

@@ -34,6 +34,9 @@ export interface Programme {
 export interface SiteContent {
   key: string
   value: string
+  label: string
+  field_type: string
+  field_group: string
 }
 
 export interface Announcement {
@@ -42,18 +45,4 @@ export interface Announcement {
   link?: string
   active: boolean
   created_at: string
-}
-
-// Local storage helpers for content that doesn't need Supabase yet
-const LS_PREFIX = 'rcm_cms_'
-
-export function getLocal<T>(key: string, fallback: T): T {
-  try {
-    const v = localStorage.getItem(LS_PREFIX + key)
-    return v ? JSON.parse(v) : fallback
-  } catch { return fallback }
-}
-
-export function setLocal<T>(key: string, value: T) {
-  localStorage.setItem(LS_PREFIX + key, JSON.stringify(value))
 }

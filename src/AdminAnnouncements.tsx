@@ -1,32 +1,31 @@
 import { useState, useEffect } from 'react'
-import { getLocal, setLocal, Announcement } from './supabase'
+import { supabase, Announcement } from './supabase'
 
 export function AdminAnnouncements() {
-  const [items, setItems] = useState<Announcement[]>(() => getLocal('announcements', []))
+  const [items, setItems] = useState<Announcement[]>([])
   const [editing, setEditing] = useState<Partial<Announcement> | null>(null)
+  const [saving, setSaving] = useState(false)
 
-  useEffect(() => { setLocal('announcements', items) }, [items])
+  const load = () => supabase.from('rcm_announcements').select('*').order('created_at', { ascending: false }).then(({ data }) => { if (data) setItems(data) })
+  useEffect(() => { load() }, [])
 
-  const save = () => {
+  const save = async () => {
     if (!editing?.text) return
-    const item: Announcement = {
-      id: editing.id || Date.now().toString(),
-      text: editing.text,
-      link: editing.link || '',
-      active: editing.active ?? true,
-      created_at: editing.created_at || new Date().toISOString(),
+    setSaving(true)
+    if (editing.id) {
+      await supabase.from('rcm_announcements').update({ text: editing.text, link: editing.link || '', active: editing.active ?? true }).eq('id', editing.id)
+    } else {
+      await supabase.from('rcm_announcements').insert({ text: editing.text, link: editing.link || '', active: editing.active ?? true })
     }
-    setItems(prev => {
-      const exists = prev.find(a => a.id === item.id)
-      if (exists) return prev.map(a => a.id === item.id ? item : a)
-      return [item, ...prev]
-    })
+    setSaving(false)
     setEditing(null)
+    load()
   }
 
-  const del = (id: string) => {
+  const del = async (id: string) => {
     if (!confirm('Delete?')) return
-    setItems(prev => prev.filter(a => a.id !== id))
+    await supabase.from('rcm_announcements').delete().eq('id', id)
+    load()
   }
 
   if (editing) {
@@ -34,7 +33,9 @@ export function AdminAnnouncements() {
       <>
         <div className="flex items-center justify-between mb-6">
           <button onClick={() => setEditing(null)} className="text-purple-400 text-sm font-semibold hover:text-white transition">← Back</button>
-          <button onClick={save} className="bg-accent text-white px-5 py-2 rounded-xl font-semibold text-sm hover:bg-accent/90 transition">Save</button>
+          <button onClick={save} disabled={saving} className="bg-accent text-white px-5 py-2 rounded-xl font-semibold text-sm hover:bg-accent/90 disabled:opacity-50 transition">
+            {saving ? 'Saving...' : 'Save'}
+          </button>
         </div>
         <h2 className="text-xl font-extrabold text-white mb-6">{editing.id ? 'Edit' : 'New'} Announcement</h2>
         <div className="flex flex-col gap-4">

@@ -1,49 +1,43 @@
 import { useState, useEffect } from 'react'
-import { getLocal, setLocal } from './supabase'
+import { supabase } from './supabase'
 
 interface ContentField {
   key: string
-  label: string
   value: string
-  type: 'text' | 'textarea'
-  group: string
+  label: string
+  field_type: string
+  field_group: string
+  sort_order: number
 }
 
-const DEFAULTS: ContentField[] = [
-  { key: 'hero_badge', label: 'Hero Badge Text', value: '✝ Revelation of Christ Ministries', type: 'text', group: 'Hero' },
-  { key: 'hero_title_1', label: 'Hero Title Line 1', value: 'Grow in the', type: 'text', group: 'Hero' },
-  { key: 'hero_title_2', label: 'Hero Title Line 2 (gradient)', value: 'Knowledge of Christ', type: 'text', group: 'Hero' },
-  { key: 'hero_subtitle', label: 'Hero Subtitle', value: 'Bible study teachings and prayer sessions to help you deepen your relationship with God through His Word and prayer.', type: 'textarea', group: 'Hero' },
-  { key: 'about_name', label: 'Host Name', value: 'Deji Odetayo', type: 'text', group: 'About the Host' },
-  { key: 'about_bio', label: 'Host Bio', value: "Founder of Revelation of Christ Ministries. Passionate about helping believers understand God's Word and grow in their walk with Christ through systematic Bible study and prayer.", type: 'textarea', group: 'About the Host' },
-  { key: 'about_verse', label: 'About Scripture', value: 'To open their eyes, and to turn them from darkness to light', type: 'text', group: 'About the Host' },
-  { key: 'about_verse_ref', label: 'About Scripture Ref', value: 'Acts 26:18', type: 'text', group: 'About the Host' },
-  { key: 'spotify_url', label: 'Spotify URL', value: 'https://open.spotify.com/show/4VnpGdSCkRyJr0tgHELfwP', type: 'text', group: 'Links' },
-  { key: 'apple_url', label: 'Apple Podcasts URL', value: 'https://podcasts.apple.com/podcast/id1772578109', type: 'text', group: 'Links' },
-  { key: 'stat_1_value', label: 'Stat 1 Value', value: '50+', type: 'text', group: 'Stats' },
-  { key: 'stat_1_label', label: 'Stat 1 Label', value: 'Episodes', type: 'text', group: 'Stats' },
-  { key: 'stat_2_value', label: 'Stat 2 Value', value: '2', type: 'text', group: 'Stats' },
-  { key: 'stat_2_label', label: 'Stat 2 Label', value: 'Programmes', type: 'text', group: 'Stats' },
-  { key: 'stat_3_value', label: 'Stat 3 Value', value: 'Weekly', type: 'text', group: 'Stats' },
-  { key: 'stat_3_label', label: 'Stat 3 Label', value: 'New Teachings', type: 'text', group: 'Stats' },
-]
-
 export function AdminContent() {
-  const [fields, setFields] = useState<ContentField[]>(() => getLocal('site_content', DEFAULTS))
+  const [fields, setFields] = useState<ContentField[]>([])
   const [saved, setSaved] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    supabase.from('rcm_site_content').select('*').order('sort_order').then(({ data }) => {
+      if (data) setFields(data)
+      setLoading(false)
+    })
+  }, [])
 
   const update = (key: string, value: string) => {
     setFields(prev => prev.map(f => f.key === key ? { ...f, value } : f))
     setSaved(false)
   }
 
-  const save = () => {
-    setLocal('site_content', fields)
+  const save = async () => {
+    for (const f of fields) {
+      await supabase.from('rcm_site_content').update({ value: f.value }).eq('key', f.key)
+    }
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }
 
-  const groups = [...new Set(fields.map(f => f.group))]
+  const groups = [...new Set(fields.map(f => f.field_group))]
+
+  if (loading) return <p className="text-gray-500 text-sm">Loading...</p>
 
   return (
     <>
@@ -60,10 +54,10 @@ export function AdminContent() {
         <div key={group} className="mb-8">
           <h3 className="text-xs font-bold text-gray-500 uppercase tracking-[2px] mb-3">{group}</h3>
           <div className="flex flex-col gap-3">
-            {fields.filter(f => f.group === group).map(f => (
+            {fields.filter(f => f.field_group === group).map(f => (
               <div key={f.key}>
                 <label className="text-xs font-semibold text-gray-500 block mb-1.5">{f.label}</label>
-                {f.type === 'textarea' ? (
+                {f.field_type === 'textarea' ? (
                   <textarea value={f.value} onChange={e => update(f.key, e.target.value)} rows={3}
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-accent resize-none" />
                 ) : (
