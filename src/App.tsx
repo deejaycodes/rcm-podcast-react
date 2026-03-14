@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { fetchRSSFeed, Episode } from './rss'
 import { useAudioPlayer } from './useAudioPlayer'
+import { Player } from './Player'
 
 // 🔧 RSS FEED
 const RSS_URL = 'https://anchor.fm/s/7431d14c/podcast/rss'
@@ -78,30 +79,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* Now Playing Bar */}
-      {player.current && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-t border-purple-100/50 px-5 py-3">
-          <div className="max-w-3xl mx-auto flex items-center gap-4">
-            <button onClick={() => player.play(player.current!)} className="w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center flex-shrink-0 shadow-lg shadow-accent/20">
-              {player.playing ? '⏸' : '▶'}
-            </button>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold truncate">{player.current.title}</p>
-              <div className="flex items-center gap-2 mt-1">
-                <div className="flex-1 h-1 bg-gray-100 rounded-full cursor-pointer overflow-hidden" onClick={e => {
-                  const rect = e.currentTarget.getBoundingClientRect()
-                  player.seek(((e.clientX - rect.left) / rect.width) * 100)
-                }}>
-                  <div className="h-full bg-accent rounded-full transition-all" style={{ width: `${player.progress}%` }} />
-                </div>
-                <span className="text-[11px] text-gray-400 tabular-nums flex-shrink-0">
-                  {player.formatTime(player.currentTime)} / {player.formatTime(player.duration)}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Player */}
+      <Player player={player} />
 
       {/* Episodes */}
       <section id="episodes" className="py-20">
@@ -138,7 +117,7 @@ export default function App() {
                     ? 'bg-accent text-white'
                     : 'bg-accent/10 border border-accent/20 text-accent hover:bg-accent hover:text-white'
                 }`}>
-                  {player.current?.audioUrl === ep.audioUrl && player.playing ? '⏸' : '▶'}
+                  {player.current?.audioUrl === ep.audioUrl && player.loading ? '⏳' : player.current?.audioUrl === ep.audioUrl && player.playing ? '⏸' : '▶'}
                 </div>
               </button>
             ))}
