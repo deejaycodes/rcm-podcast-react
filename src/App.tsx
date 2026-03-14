@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { fetchRSSFeed, Episode } from './rss'
 import { useAudioPlayer } from './useAudioPlayer'
 
-// 🔧 SET YOUR RSS FEED URL HERE
-const RSS_URL = '' // e.g. 'https://anchor.fm/s/your-id/podcast/rss'
+// 🔧 RSS FEED
+const RSS_URL = 'https://anchor.fm/s/7431d14c/podcast/rss'
 
 const SAMPLE_EPISODES: Episode[] = [
   { title: 'The Finished Work of Christ in Redemption', description: 'Understanding the completeness of what Christ accomplished on the cross and its significance in our daily lives.', audioUrl: '', date: '10 Mar 2026', duration: '45:00', episodeNumber: 12 },
@@ -53,11 +53,11 @@ export default function App() {
             🎙️ New episodes weekly
           </div>
           <h1 className="text-5xl sm:text-6xl font-black leading-[1.05] tracking-tight mb-5">
-            The Word of<br />
-            <span className="bg-gradient-to-r from-accent via-purple-400 to-amber-500 bg-clip-text text-transparent">Transformation</span>
+            Christ Revealed<br />
+            <span className="bg-gradient-to-r from-accent via-purple-400 to-amber-500 bg-clip-text text-transparent">Bible Study Podcast</span>
           </h1>
           <p className="text-lg text-gray-500 max-w-xl mx-auto mb-8 leading-relaxed">
-            Opening the eyes of men to the realities in Christ through the teaching and preaching of God's Word — by the power of the Holy Spirit.
+            Your personal understanding of God's Word is pivotal to your relationship with Him. Join us to learn God's Word and grow in your walk with Christ.
           </p>
           <div className="flex gap-3 justify-center flex-wrap mb-10">
             <a href="#episodes" className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-semibold shadow-lg shadow-accent/20 hover:-translate-y-0.5 transition">
@@ -144,10 +144,8 @@ export default function App() {
             ))}
           </div>
 
-          {!RSS_URL && (
-            <p className="text-center text-sm text-gray-400 mt-6 bg-accent-light rounded-xl p-4 border border-accent/10">
-              ⚙️ Sample episodes shown. Set your RSS feed URL in <code className="bg-white px-1.5 py-0.5 rounded text-accent text-xs">src/App.tsx</code> to load real episodes.
-            </p>
+          {!episodes.length && !loading && (
+            <p className="text-center text-sm text-gray-400 mt-6">No episodes found.</p>
           )}
         </div>
       </section>
@@ -157,9 +155,9 @@ export default function App() {
         <div className="max-w-3xl mx-auto px-5 grid md:grid-cols-2 gap-10">
           <div>
             <span className="text-xs font-semibold uppercase tracking-[2.5px] text-accent block mb-1">About the Podcast</span>
-            <h2 className="text-3xl font-extrabold mb-4">Revelation of Christ Ministries</h2>
-            <p className="text-gray-500 leading-relaxed mb-3">RCM is a family of Christ ordained by God and tasked with a specific assignment to contribute to what God is doing on the earth.</p>
-            <p className="text-gray-500 leading-relaxed mb-5">We exist to connect people to Jesus and lead them into a growing relationship with Him.</p>
+            <h2 className="text-3xl font-extrabold mb-4">Christ Revealed Bible Study</h2>
+            <p className="text-gray-500 leading-relaxed mb-3">Your personal understanding of God's Word is pivotal to your relationship with Him and living the kind of life that He wants you to live.</p>
+            <p className="text-gray-500 leading-relaxed mb-5">Many believers struggle with reading, studying and comprehending the Bible. Join us on this podcast to learn God's Word. If you feel you need to have a better relationship with God through His Word, then this podcast is for you.</p>
             <div className="bg-accent/5 border-l-[3px] border-accent rounded-r-xl p-4">
               <p className="italic text-gray-700 text-[15px] leading-relaxed mb-1">"To open their eyes, and to turn them from darkness to light, and from the power of Satan unto God"</p>
               <span className="text-accent text-sm font-semibold">— Acts 26:18</span>
@@ -168,7 +166,7 @@ export default function App() {
           <div className="bg-white border border-purple-100/50 rounded-2xl overflow-hidden shadow-sm">
             <div className="grid grid-cols-3 border-b border-purple-100/50">
               {[
-                { n: '12+', l: 'Episodes' },
+                { n: '4+', l: 'Episodes' },
                 { n: 'Weekly', l: 'New Teachings' },
                 { n: 'Free', l: 'Always' },
               ].map((s, i) => (
@@ -224,8 +222,8 @@ export default function App() {
           <div className="flex items-center gap-2">
             <span className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center text-white text-xs">✝</span>
             <div>
-              <strong className="text-sm block">Revelation of Christ Ministries</strong>
-              <span className="text-xs text-gray-400">Revelation Church International · London</span>
+              <strong className="text-sm block">Christ Revealed Bible Study</strong>
+              <span className="text-xs text-gray-400">Revelation of Christ Ministries · Deji Odetayo</span>
             </div>
           </div>
           <div className="flex gap-5">
