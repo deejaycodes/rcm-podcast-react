@@ -23,7 +23,7 @@ export function Landing() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Hero */}
-      <section className="relative pt-36 pb-20 text-center overflow-hidden">
+      <section className="relative pt-36 pb-10 text-center overflow-hidden">
         <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[80px] pointer-events-none" />
         <div className="relative max-w-3xl mx-auto px-5">
           <div className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-accent/10 border border-accent/20 rounded-full text-accent text-xs font-medium mb-8">
@@ -40,7 +40,7 @@ export function Landing() {
       </section>
 
       {/* Programs */}
-      <section className="py-16">
+      <section className="py-10">
         <div className="max-w-3xl mx-auto px-5">
           <span className="text-xs font-semibold uppercase tracking-[2.5px] text-accent block mb-1">Our Programmes</span>
           <h2 className="text-3xl font-extrabold mb-8">Listen & Learn</h2>
