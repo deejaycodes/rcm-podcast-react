@@ -41,8 +41,8 @@ export function Player({ player }: { player: ReturnType<typeof useAudioPlayer> }
           </button>
           <button onClick={() => player.skip(30)} className="w-8 h-8 text-gray-400 hover:text-gray-700 transition hidden sm:flex items-center justify-center text-xs">+30</button>
           {/* Expand */}
-          <button onClick={() => setExpanded(true)} className="w-8 h-8 text-gray-400 hover:text-gray-700 transition flex items-center justify-center">
-            ↑
+          <button onClick={() => setExpanded(true)} className="w-8 h-8 text-accent hover:text-purple-800 transition flex items-center justify-center text-lg font-bold">
+            ▲
           </button>
         </div>
       </div>
@@ -54,10 +54,10 @@ export function Player({ player }: { player: ReturnType<typeof useAudioPlayer> }
     <div className="fixed inset-0 z-50 bg-white flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-        <button onClick={() => setExpanded(false)} className="text-gray-400 hover:text-gray-700 transition text-sm font-medium flex items-center gap-1">
-          ↓ Minimize
+        <button onClick={() => setExpanded(false)} className="text-gray-700 hover:text-accent transition text-sm font-semibold flex items-center gap-1">
+          ▼ Minimize
         </button>
-        <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">Now Playing</span>
+        <span className="text-xs text-gray-600 font-semibold uppercase tracking-wider">Now Playing</span>
         <div className="w-20" />
       </div>
 
@@ -70,8 +70,8 @@ export function Player({ player }: { player: ReturnType<typeof useAudioPlayer> }
 
         {/* Title & Meta */}
         <h2 className="text-xl sm:text-2xl font-extrabold text-center mb-1 leading-tight">{ep.title}</h2>
-        <p className="text-sm text-gray-400 mb-1">Christ Revealed Bible Study Podcast</p>
-        {ep.date && <p className="text-xs text-gray-300 mb-6">{ep.date} {ep.duration && `· ${ep.duration}`}</p>}
+        <p className="text-sm text-gray-600 mb-1">Christ Revealed Bible Study Podcast</p>
+        {ep.date && <p className="text-xs text-gray-500 mb-6">{ep.date} {ep.duration && `· ${ep.duration}`}</p>}
 
         {/* Progress */}
         <div className="w-full mb-2">
@@ -85,8 +85,8 @@ export function Player({ player }: { player: ReturnType<typeof useAudioPlayer> }
             </div>
           </div>
           <div className="flex justify-between mt-1.5">
-            <span className="text-[11px] text-gray-400 tabular-nums">{player.fmt(player.currentTime)}</span>
-            <span className="text-[11px] text-gray-400 tabular-nums">-{player.fmt(Math.max(0, player.duration - player.currentTime))}</span>
+            <span className="text-[11px] text-gray-500 tabular-nums">{player.fmt(player.currentTime)}</span>
+            <span className="text-[11px] text-gray-500 tabular-nums">-{player.fmt(Math.max(0, player.duration - player.currentTime))}</span>
           </div>
         </div>
 
@@ -139,7 +139,7 @@ export function Player({ player }: { player: ReturnType<typeof useAudioPlayer> }
       {/* Description */}
       {ep.description && (
         <div className="px-6 pb-6 max-w-lg mx-auto w-full">
-          <p className="text-xs text-gray-400 leading-relaxed text-center">{ep.description}</p>
+          <p className="text-sm text-gray-600 leading-relaxed text-center">{ep.description}</p>
         </div>
       )}
     </div>
