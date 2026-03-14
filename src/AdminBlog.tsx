@@ -58,9 +58,17 @@ export function AdminBlog() {
               className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-accent placeholder:text-gray-600 resize-none" placeholder="Short summary for previews" />
           </div>
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1.5">Cover Image URL</label>
-            <input value={editing.cover_image || ''} onChange={e => setEditing({ ...editing, cover_image: e.target.value })}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-accent placeholder:text-gray-600" placeholder="https://images.unsplash.com/..." />
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1.5">Cover Image</label>
+            <input type="file" accept="image/*" onChange={async e => {
+              const file = e.target.files?.[0]
+              if (!file) return
+              const ext = file.name.split('.').pop()
+              const path = `${Date.now()}.${ext}`
+              const { error } = await supabase.storage.from('blog-images').upload(path, file)
+              if (error) return alert(error.message)
+              const { data } = supabase.storage.from('blog-images').getPublicUrl(path)
+              setEditing({ ...editing, cover_image: data.publicUrl })
+            }} className="w-full text-sm text-gray-400 file:mr-3 file:px-4 file:py-2 file:rounded-xl file:border-0 file:bg-accent file:text-white file:font-semibold file:text-sm file:cursor-pointer" />
             {editing.cover_image && <img src={editing.cover_image} alt="" className="mt-2 h-32 object-cover rounded-xl" />}
           </div>
           <div>
