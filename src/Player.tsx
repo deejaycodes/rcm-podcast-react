@@ -138,8 +138,9 @@ export function Player({ player }: { player: ReturnType<typeof useAudioPlayer> }
 
       {/* Description */}
       {ep.description && (
-        <div className="px-6 pb-6 max-w-lg mx-auto w-full">
-          <p className="text-sm text-gray-600 leading-relaxed text-center">{ep.description}</p>
+        <div className="px-6 pb-16 max-w-lg mx-auto w-full">
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Episode Description</p>
+          <p className="text-sm text-gray-600 leading-relaxed">{ep.description}</p>
         </div>
       )}
     </div>
