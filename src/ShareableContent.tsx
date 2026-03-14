@@ -8,6 +8,7 @@ export function ShareableContent({ html, postTitle, author }: { html: string; po
     if (!ref.current) return
     ref.current.querySelectorAll('blockquote').forEach(bq => {
       if (bq.querySelector('.quote-actions')) return
+      if (bq.classList.contains('scripture')) return
       const text = bq.textContent?.trim() || ''
       if (!text) return
 
@@ -40,6 +41,7 @@ export function ShareableContent({ html, postTitle, author }: { html: string; po
       [&_a]:text-accent [&_a]:underline
       [&_strong]:text-gray-900 [&_strong]:font-semibold
       [&_blockquote]:border-l-[3px] [&_blockquote]:border-accent [&_blockquote]:pl-5 [&_blockquote]:py-2 [&_blockquote]:my-8 [&_blockquote]:bg-accent/5 [&_blockquote]:rounded-r-xl [&_blockquote_p]:italic [&_blockquote_p]:text-gray-600 [&_blockquote_p]:mb-0
+      [&_.scripture]:border-l-[3px] [&_.scripture]:border-accent [&_.scripture]:pl-5 [&_.scripture]:py-3 [&_.scripture]:my-8 [&_.scripture]:bg-accent/5 [&_.scripture]:rounded-r-xl [&_.scripture]:italic [&_.scripture]:text-gray-600 [&_.scripture]:text-[15px] [&_.scripture]:leading-relaxed
       [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul_li]:text-gray-700 [&_ul_li]:mb-2 [&_ul_li]:leading-relaxed
       [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-5 [&_ol_li]:text-gray-700 [&_ol_li]:mb-2 [&_ol_li]:leading-relaxed
     " dangerouslySetInnerHTML={{ __html: html }} />

@@ -65,11 +65,21 @@ export function AdminBlog() {
           </div>
           <div>
             <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-1.5">Content</label>
-            <p className="text-[11px] text-gray-600 mb-2">💡 Use the <span className="text-purple-400 font-semibold">"</span> blockquote button in the toolbar to create shareable quotes — readers can tweet them or download as images.</p>
+            <p className="text-[11px] text-gray-600 mb-2">💡 Use the <span className="text-purple-400 font-semibold">"</span> blockquote button for shareable quotes (tweet + image). Use the 📖 Scripture button below for Bible verses (same style, no share buttons).</p>
             <div className="[&_.ql-toolbar]:bg-white/5 [&_.ql-toolbar]:border-white/10 [&_.ql-toolbar]:rounded-t-xl [&_.ql-container]:bg-white/5 [&_.ql-container]:border-white/10 [&_.ql-container]:rounded-b-xl [&_.ql-container]:min-h-[250px] [&_.ql-container]:text-sm [&_.ql-editor]:text-gray-300 [&_.ql-stroke]:stroke-gray-400 [&_.ql-fill]:fill-gray-400 [&_.ql-picker-label]:text-gray-400">
               <ReactQuill theme="snow" value={editing.content || ''} onChange={v => setEditing({ ...editing, content: v })}
                 modules={{ toolbar: [['bold', 'italic', 'underline'], [{ header: [2, 3, false] }], ['blockquote'], ['link', 'image'], [{ list: 'ordered' }, { list: 'bullet' }], ['clean']] }} />
             </div>
+            <button type="button" onClick={() => {
+              const verse = prompt('Paste the scripture verse:')
+              const ref = prompt('Reference (e.g. John 3:16):')
+              if (verse) {
+                const html = `<div class="scripture">📖 "${verse}"${ref ? ` — <strong>${ref}</strong>` : ''}</div>`
+                setEditing({ ...editing, content: (editing.content || '') + html })
+              }
+            }} className="mt-2 text-xs text-purple-400 font-semibold px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition">
+              📖 Insert Scripture Verse
+            </button>
           </div>
           <label className="flex items-center gap-2.5 text-sm text-gray-400 cursor-pointer">
             <div className={`w-10 h-6 rounded-full transition flex items-center px-0.5 ${editing.published ? 'bg-accent' : 'bg-white/10'}`}>
