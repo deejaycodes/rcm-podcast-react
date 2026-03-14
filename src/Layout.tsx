@@ -16,7 +16,7 @@ export function Nav() {
         </Link>
         <div className="flex items-center gap-1 sm:gap-4">
           {links.map(l => (
-            <Link key={l.to} to={l.to} className={`text-xs sm:text-sm px-2 sm:px-3 py-1.5 rounded-full transition no-underline ${pathname === l.to ? 'bg-accent/10 text-accent font-semibold' : 'text-gray-500 hover:text-gray-900'}`}>
+            <Link key={l.to} to={l.to} className={`text-xs sm:text-sm px-2 sm:px-3 py-1.5 rounded-full transition no-underline ${pathname === l.to ? 'bg-accent/10 text-accent font-semibold' : 'text-gray-700 hover:text-gray-900'}`}>
               {l.label}
             </Link>
           ))}
@@ -34,12 +34,12 @@ export function Footer() {
           <span className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center text-white text-xs">✝</span>
           <div>
             <strong className="text-sm block">Revelation of Christ Ministries</strong>
-            <span className="text-xs text-gray-400">Deji Odetayo</span>
+            <span className="text-xs text-gray-500">Deji Odetayo</span>
           </div>
         </div>
         <div className="flex gap-5">
           {[{ to: '/bible-study', l: 'Bible Study' }, { to: '/school-of-prayer', l: 'Prayer' }, { to: '/blog', l: 'Blog' }].map(l => (
-            <Link key={l.to} to={l.to} className="text-sm text-gray-400 hover:text-gray-700 transition no-underline">{l.l}</Link>
+            <Link key={l.to} to={l.to} className="text-sm text-gray-600 hover:text-gray-900 transition no-underline">{l.l}</Link>
           ))}
         </div>
         <span className="text-xs text-gray-400">© 2026 RCM</span>

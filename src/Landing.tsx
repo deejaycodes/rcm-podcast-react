@@ -33,7 +33,7 @@ export function Landing() {
             Grow in the<br />
             <span className="bg-gradient-to-r from-accent via-purple-400 to-amber-500 bg-clip-text text-transparent">Knowledge of Christ</span>
           </h1>
-          <p className="text-lg text-gray-500 max-w-xl mx-auto mb-10 leading-relaxed">
+          <p className="text-lg text-gray-600 max-w-xl mx-auto mb-10 leading-relaxed">
             Bible study teachings and prayer sessions to help you deepen your relationship with God through His Word and prayer.
           </p>
         </div>
@@ -51,8 +51,8 @@ export function Landing() {
                   {p.icon}
                 </div>
                 <h3 className="text-xl font-extrabold mb-1">{p.title}</h3>
-                <p className="text-sm text-accent font-medium mb-2">{p.subtitle}</p>
-                <p className="text-sm text-gray-500 leading-relaxed mb-4">{p.desc}</p>
+                <p className="text-sm text-accent font-semibold mb-2">{p.subtitle}</p>
+                <p className="text-sm text-gray-600 leading-relaxed mb-4">{p.desc}</p>
                 <span className="text-sm font-semibold text-accent group-hover:underline">Listen now →</span>
               </Link>
             ))}
@@ -65,7 +65,7 @@ export function Landing() {
         <div className="max-w-3xl mx-auto px-5">
           <span className="text-xs font-semibold uppercase tracking-[2.5px] text-accent block mb-1">Blog</span>
           <h2 className="text-3xl font-extrabold mb-3">Articles & Reflections</h2>
-          <p className="text-gray-500 mb-6">Written teachings, devotionals, and reflections on the Word of God.</p>
+          <p className="text-gray-600 mb-6">Written teachings, devotionals, and reflections on the Word of God.</p>
           <Link to="/blog" className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-semibold shadow-lg shadow-accent/20 hover:-translate-y-0.5 transition no-underline">
             Read the Blog →
           </Link>
@@ -76,7 +76,7 @@ export function Landing() {
       <section className="py-16 bg-gradient-to-b from-accent-light to-accent-mid">
         <div className="max-w-3xl mx-auto px-5 text-center">
           <h2 className="text-3xl font-extrabold mb-4">About RCM</h2>
-          <p className="text-gray-500 leading-relaxed max-w-xl mx-auto mb-6">
+          <p className="text-gray-600 leading-relaxed max-w-xl mx-auto mb-6">
             Revelation of Christ Ministries exists to open blind eyes and turn people from darkness to light, and from the power of Satan unto God, through the teaching of God's Word and prayer.
           </p>
           <div className="bg-white/80 border-l-[3px] border-accent rounded-r-xl p-4 max-w-md mx-auto text-left">
@@ -91,7 +91,7 @@ export function Landing() {
         <div className="max-w-3xl mx-auto px-5">
           <span className="text-xs font-semibold uppercase tracking-[2.5px] text-accent block mb-1">Stay Connected</span>
           <h2 className="text-3xl font-extrabold mb-2">Never Miss a Teaching</h2>
-          <p className="text-gray-500 mb-8 text-lg">Available on all major podcast platforms.</p>
+          <p className="text-gray-600 mb-8 text-lg">Available on all major podcast platforms.</p>
           <div className="flex gap-3 justify-center flex-wrap">
             {['🎵 Spotify', '🍎 Apple Podcasts', '📺 YouTube', '🎧 Google Podcasts'].map(p => (
               <a key={p} href="#" className="flex items-center gap-2 px-5 py-3.5 bg-accent-light border border-purple-100/50 rounded-2xl no-underline text-gray-900 font-semibold hover:border-accent/25 hover:-translate-y-0.5 transition shadow-sm">{p}</a>

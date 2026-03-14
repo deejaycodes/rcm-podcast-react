@@ -35,7 +35,7 @@ export function PodcastPage({ title, subtitle, description, rssUrl, accent, icon
           <h1 className="text-4xl sm:text-5xl font-black leading-[1.1] tracking-tight mb-3">
             {title}
           </h1>
-          <p className="text-lg text-gray-500 max-w-xl mx-auto mb-6 leading-relaxed">{subtitle}</p>
+          <p className="text-lg text-gray-600 max-w-xl mx-auto mb-6 leading-relaxed">{subtitle}</p>
           <div className="bg-accent/5 border-l-[3px] border-accent rounded-r-xl p-4 max-w-md mx-auto text-left">
             <p className="italic text-gray-700 text-sm leading-relaxed mb-1">"{verse.text}"</p>
             <span className="text-accent text-xs font-semibold">— {verse.ref}</span>
@@ -66,8 +66,8 @@ export function PodcastPage({ title, subtitle, description, rssUrl, accent, icon
                 </span>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-[15px] font-semibold mb-0.5">{ep.title}</h3>
-                  <p className="text-sm text-gray-400 line-clamp-2 hidden sm:block">{ep.description}</p>
-                  <div className="flex gap-2 text-xs text-gray-400 mt-1">
+                  <p className="text-sm text-gray-500 line-clamp-2 hidden sm:block">{ep.description}</p>
+                  <div className="flex gap-2 text-xs text-gray-500 mt-1">
                     <span>{ep.date}</span>
                     {ep.duration && <><span>·</span><span>{ep.duration}</span></>}
                   </div>
