@@ -2,23 +2,20 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchRSSFeed, Episode } from './rss'
 import { useAudioPlayer } from './useAudioPlayer'
-import { Player } from './Player'
 
 interface Props {
+  player: ReturnType<typeof useAudioPlayer>
   title: string
   subtitle: string
-  description: string
   rssUrl: string
-  accent: string
   icon: string
   podcastName: string
   verse: { text: string; ref: string }
 }
 
-export function PodcastPage({ title, subtitle, rssUrl, icon, podcastName, verse }: Props) {
+export function PodcastPage({ player, title, subtitle, rssUrl, icon, podcastName, verse }: Props) {
   const [episodes, setEpisodes] = useState<Episode[]>([])
   const [loading, setLoading] = useState(!!rssUrl)
-  const player = useAudioPlayer()
 
   useEffect(() => {
     if (!rssUrl) { setLoading(false); return }
@@ -43,8 +40,6 @@ export function PodcastPage({ title, subtitle, rssUrl, icon, podcastName, verse 
           </div>
         </div>
       </section>
-
-      <Player player={player} podcastName={podcastName} />
 
       <section className="py-12">
         <div className="max-w-3xl mx-auto px-5">
