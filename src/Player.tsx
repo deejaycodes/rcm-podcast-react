@@ -15,14 +15,14 @@ export function Player({ player }: { player: ReturnType<typeof useAudioPlayer> }
   // Mini player (bottom bar)
   if (!expanded) {
     return (
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-purple-100/60 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-purple-100/60 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] animate-slide-up">
         {/* Progress bar on top of mini player */}
-        <div className="h-1 bg-gray-100 cursor-pointer" onClick={e => {
-          const pct = (e.clientX / e.currentTarget.offsetWidth) * 100
-          player.seek(pct)
+        <div className="h-1 bg-gray-100 cursor-pointer relative overflow-hidden" onClick={e => {
+          const rect = e.currentTarget.getBoundingClientRect()
+          player.seek(((e.clientX - rect.left) / rect.width) * 100)
         }}>
-          <div className="h-full bg-purple-200 absolute" style={{ width: `${player.buffered}%` }} />
-          <div className="h-full bg-accent relative z-10 rounded-full" style={{ width: `${player.progress}%` }} />
+          <div className="h-full bg-purple-200 absolute left-0 top-0" style={{ width: `${player.buffered}%` }} />
+          <div className="h-full bg-accent absolute left-0 top-0 z-10" style={{ width: `${player.progress}%` }} />
         </div>
         <div className="max-w-3xl mx-auto px-4 py-2.5 flex items-center gap-3">
           {/* Art */}
