@@ -19,7 +19,7 @@ const SAMPLE_POSTS: BlogPostType[] = [
 <h2>A Practical Framework</h2>
 <p>Try the <strong>SOAP method</strong>: Scripture (read it), Observation (what do you notice?), Application (how does this apply to your life?), Prayer (talk to God about it).</p>
 <p>This simple framework transforms passive reading into active engagement with the living Word of God.</p>`,
-    cover_image: '',
+    cover_image: 'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=800&q=80',
     published: true,
     created_at: '2026-03-10T08:00:00Z',
     updated_at: '2026-03-10T08:00:00Z',
@@ -38,7 +38,7 @@ const SAMPLE_POSTS: BlogPostType[] = [
 <p>This doesn't mean you walk around with your eyes closed all day. It means maintaining an awareness of God's presence in everything you do.</p>
 <h2>Practical Steps</h2>
 <p>Start your prayer with thanksgiving. Then bring your requests. Then listen. Yes — prayer is a two-way conversation. Give God room to speak back to you through His Word and His Spirit.</p>`,
-    cover_image: '',
+    cover_image: 'https://images.unsplash.com/photo-1545232979-8bf68ee9b1af?w=800&q=80',
     published: true,
     created_at: '2026-03-05T08:00:00Z',
     updated_at: '2026-03-05T08:00:00Z',
@@ -58,7 +58,7 @@ const SAMPLE_POSTS: BlogPostType[] = [
 <p>The epistles are letters written to churches and individuals. They contain the practical theology of the Christian life. Romans, Ephesians, and Philippians are excellent starting points.</p>
 <blockquote>To open their eyes, and to turn them from darkness to light, and from the power of Satan unto God. — Acts 26:18</blockquote>
 <p>The entire New Testament points to one person: Jesus Christ. When you read with that lens, everything comes alive.</p>`,
-    cover_image: '',
+    cover_image: 'https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?w=800&q=80',
     published: true,
     created_at: '2026-02-28T08:00:00Z',
     updated_at: '2026-02-28T08:00:00Z',
