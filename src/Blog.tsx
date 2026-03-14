@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase, type BlogPost as BlogPostType } from './supabase'
 import { useMetaTags, ShareButton } from './utils'
+import { ShareableContent } from './ShareableContent'
 
 export const SAMPLE_POSTS: BlogPostType[] = [
   {
@@ -258,16 +259,7 @@ export function BlogPost() {
           <div className="h-px bg-gray-100 mb-8" />
 
           {/* Content */}
-          <div className="
-            [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:text-gray-900
-            [&_h3]:text-lg [&_h3]:font-bold [&_h3]:mt-8 [&_h3]:mb-2
-            [&_p]:text-gray-700 [&_p]:leading-[1.8] [&_p]:mb-5 [&_p]:text-[16px]
-            [&_a]:text-accent [&_a]:underline
-            [&_strong]:text-gray-900 [&_strong]:font-semibold
-            [&_blockquote]:border-l-[3px] [&_blockquote]:border-accent [&_blockquote]:pl-5 [&_blockquote]:py-2 [&_blockquote]:my-8 [&_blockquote]:bg-accent/5 [&_blockquote]:rounded-r-xl [&_blockquote_p]:italic [&_blockquote_p]:text-gray-600 [&_blockquote_p]:mb-0
-            [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-5 [&_ul_li]:text-gray-700 [&_ul_li]:mb-2 [&_ul_li]:leading-relaxed
-            [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-5 [&_ol_li]:text-gray-700 [&_ol_li]:mb-2 [&_ol_li]:leading-relaxed
-          " dangerouslySetInnerHTML={{ __html: post.content }} />
+          <ShareableContent html={post.content} postTitle={post.title} author="Deji Odetayo — RCM" />
 
           <div className="h-px bg-gray-100 mt-10 mb-8" />
 
