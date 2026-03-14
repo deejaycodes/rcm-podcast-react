@@ -13,6 +13,7 @@ export function useAudioPlayer() {
   const [playbackRate, setPlaybackRate] = useState(1)
   const [buffered, setBuffered] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [preview, setPreview] = useState<Episode | null>(null)
 
   const getAudio = useCallback(() => {
     if (!audioRef.current) {
@@ -47,10 +48,19 @@ export function useAudioPlayer() {
       a.volume = muted ? 0 : volume
       a.play()
       setCurrent(episode)
+      setPreview(null)
       setPlaying(true)
       setLoading(true)
     }
   }, [current, playing, getAudio, playbackRate, volume, muted])
+
+  const openPreview = useCallback((episode: Episode) => {
+    setPreview(episode)
+  }, [])
+
+  const closePreview = useCallback(() => {
+    setPreview(null)
+  }, [])
 
   const seek = useCallback((pct: number) => {
     const a = audioRef.current
@@ -90,7 +100,8 @@ export function useAudioPlayer() {
 
   return {
     current, playing, progress, currentTime, duration, volume, muted,
-    playbackRate, buffered, loading,
+    playbackRate, buffered, loading, preview,
     play, seek, skip, changeVolume, toggleMute, changeRate, fmt,
+    openPreview, closePreview,
   }
 }

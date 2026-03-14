@@ -92,9 +92,9 @@ export default function App() {
 
           <div className="flex flex-col gap-2">
             {episodes.map((ep, i) => (
-              <button
+              <div
                 key={i}
-                onClick={() => ep.audioUrl && player.play(ep)}
+                onClick={() => ep.audioUrl && player.openPreview(ep)}
                 className={`flex items-center gap-4 p-4 rounded-2xl border text-left transition w-full ${
                   player.current?.audioUrl === ep.audioUrl && player.playing
                     ? 'bg-accent/5 border-accent/20'
@@ -112,14 +112,17 @@ export default function App() {
                     {ep.duration && <><span>·</span><span>{ep.duration}</span></>}
                   </div>
                 </div>
-                <div className={`w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 transition ${
-                  player.current?.audioUrl === ep.audioUrl && player.playing
-                    ? 'bg-accent text-white'
-                    : 'bg-accent/10 border border-accent/20 text-accent hover:bg-accent hover:text-white'
-                }`}>
+                <div
+                  onClick={e => { e.stopPropagation(); ep.audioUrl && player.play(ep) }}
+                  className={`w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 transition ${
+                    player.current?.audioUrl === ep.audioUrl && player.playing
+                      ? 'bg-accent text-white'
+                      : 'bg-accent/10 border border-accent/20 text-accent hover:bg-accent hover:text-white'
+                  }`}
+                >
                   {player.current?.audioUrl === ep.audioUrl && player.loading ? '⏳' : player.current?.audioUrl === ep.audioUrl && player.playing ? '⏸' : '▶'}
                 </div>
-              </button>
+              </div>
             ))}
           </div>
 
