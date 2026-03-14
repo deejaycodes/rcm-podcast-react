@@ -48,10 +48,16 @@ export function Player({ player, podcastName = 'Christ Revealed Bible Study Podc
   if (!expanded) {
     return (
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-purple-100/60 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] animate-slide-up">
-        <div className="h-1.5 bg-gray-100 cursor-pointer relative overflow-hidden" onClick={e => {
-          const rect = e.currentTarget.getBoundingClientRect()
-          player.seek(((e.clientX - rect.left) / rect.width) * 100)
-        }}>
+        <div className="h-1 bg-gray-100 cursor-pointer relative overflow-hidden"
+          onClick={e => {
+            const rect = e.currentTarget.getBoundingClientRect()
+            player.seek(((e.clientX - rect.left) / rect.width) * 100)
+          }}
+          onTouchMove={e => {
+            const rect = e.currentTarget.getBoundingClientRect()
+            player.seek(Math.max(0, Math.min(100, ((e.touches[0].clientX - rect.left) / rect.width) * 100)))
+          }}
+        >
           <div className="h-full bg-purple-200 absolute left-0 top-0 pointer-events-none" style={{ width: `${player.buffered}%` }} />
           <div className="h-full bg-accent absolute left-0 top-0 z-10 pointer-events-none" style={{ width: `${player.progress}%` }} />
         </div>
@@ -89,12 +95,29 @@ export function Player({ player, podcastName = 'Christ Revealed Bible Study Podc
           <p className="text-sm text-gray-600 mb-1">{podcastName}</p>
           {ep.date && <p className="text-xs text-gray-500 mb-5">{ep.date} {ep.duration && `· ${ep.duration}`}</p>}
           <div className="w-full mb-2">
-            <div className="w-full h-3 bg-gray-100 rounded-full cursor-pointer relative overflow-hidden group" onClick={e => {
-              const rect = e.currentTarget.getBoundingClientRect()
-              player.seek(((e.clientX - rect.left) / rect.width) * 100)
-            }}>
+            <div className="w-full h-2 bg-gray-100 rounded-full cursor-pointer relative overflow-hidden"
+              onClick={e => {
+                const rect = e.currentTarget.getBoundingClientRect()
+                player.seek(((e.clientX - rect.left) / rect.width) * 100)
+              }}
+              onMouseDown={e => {
+                const bar = e.currentTarget
+                const move = (ev: MouseEvent) => {
+                  const rect = bar.getBoundingClientRect()
+                  player.seek(Math.max(0, Math.min(100, ((ev.clientX - rect.left) / rect.width) * 100)))
+                }
+                const up = () => { window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up) }
+                window.addEventListener('mousemove', move)
+                window.addEventListener('mouseup', up)
+              }}
+              onTouchMove={e => {
+                const rect = e.currentTarget.getBoundingClientRect()
+                const touch = e.touches[0]
+                player.seek(Math.max(0, Math.min(100, ((touch.clientX - rect.left) / rect.width) * 100)))
+              }}
+            >
               <div className="h-full bg-gray-200 absolute rounded-full pointer-events-none" style={{ width: `${player.buffered}%` }} />
-              <div className="h-full bg-accent rounded-full relative z-10 transition-all pointer-events-none" style={{ width: `${player.progress}%` }} />
+              <div className="h-full bg-accent rounded-full relative z-10 pointer-events-none" style={{ width: `${player.progress}%` }} />
             </div>
             <div className="flex justify-between mt-1.5">
               <span className="text-[11px] text-gray-500 tabular-nums">{player.fmt(player.currentTime)}</span>
