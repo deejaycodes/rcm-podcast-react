@@ -4,22 +4,20 @@ import { useAudioPlayer } from './useAudioPlayer'
 const RATES = [0.5, 0.75, 1, 1.25, 1.5, 2]
 
 export function Player({ player }: { player: ReturnType<typeof useAudioPlayer> }) {
+  const [expanded, setExpanded] = useState(false)
   const [showRate, setShowRate] = useState(false)
 
   const isPreview = !!player.preview && player.current?.audioUrl !== player.preview.audioUrl
-  const ep = player.preview || player.current
+  const ep = isPreview ? player.preview : player.current
 
-  // Nothing to show
   if (!ep) return null
 
-  // Preview mode — full screen episode details, no mini player
+  // Preview mode — episode details, no audio yet
   if (isPreview) {
     return (
       <div className="fixed inset-0 z-50 bg-white flex flex-col animate-slide-up">
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <button onClick={() => player.closePreview()} className="text-gray-700 hover:text-accent transition text-sm font-semibold flex items-center gap-1">
-            ↓ Close
-          </button>
+          <button onClick={() => player.closePreview()} className="text-gray-700 hover:text-accent transition text-sm font-semibold flex items-center gap-1">↓ Close</button>
           <span className="text-xs text-gray-600 font-semibold uppercase tracking-wider">Episode Details</span>
           <div className="w-20" />
         </div>
@@ -30,11 +28,8 @@ export function Player({ player }: { player: ReturnType<typeof useAudioPlayer> }
           <h2 className="text-xl sm:text-2xl font-extrabold text-center mb-1 leading-tight">{ep.title}</h2>
           <p className="text-sm text-gray-600 mb-1">Christ Revealed Bible Study Podcast</p>
           {ep.date && <p className="text-xs text-gray-500 mb-6">{ep.date} {ep.duration && `· ${ep.duration}`}</p>}
-          {/* Play button */}
           {ep.audioUrl && (
-            <button onClick={() => player.play(ep)} className="w-16 h-16 rounded-full bg-accent text-white flex items-center justify-center shadow-xl shadow-accent/25 hover:scale-105 transition text-lg mb-6">
-              ▶
-            </button>
+            <button onClick={() => { player.play(ep); setExpanded(true) }} className="w-16 h-16 rounded-full bg-accent text-white flex items-center justify-center shadow-xl shadow-accent/25 hover:scale-105 transition text-lg mb-6">▶</button>
           )}
         </div>
         {ep.description && (
@@ -47,9 +42,7 @@ export function Player({ player }: { player: ReturnType<typeof useAudioPlayer> }
     )
   }
 
-  // Active player — mini bar (collapsed) or full screen (expanded)
-  const [expanded, setExpanded] = useState(false)
-
+  // Mini player bar
   if (!expanded) {
     return (
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-purple-100/60 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] animate-slide-up">
@@ -77,7 +70,7 @@ export function Player({ player }: { player: ReturnType<typeof useAudioPlayer> }
     )
   }
 
-  // Expanded active player
+  // Expanded now-playing
   return (
     <div className="fixed inset-0 z-50 bg-white flex flex-col">
       <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
