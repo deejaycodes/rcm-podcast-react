@@ -3,7 +3,7 @@ import { Nav, Footer } from './Layout'
 import { Landing } from './Landing'
 import { PodcastPage } from './PodcastPage'
 import { BlogList, BlogPost } from './Blog'
-import { BlogAdmin } from './BlogAdmin'
+import { CMS } from './CMS'
 import { ScrollToTop, PageTitle } from './utils'
 import { useAudioPlayer } from './useAudioPlayer'
 import { Player } from './Player'
@@ -64,7 +64,8 @@ export default function App() {
         } />
         <Route path="/blog" element={<><BlogList /><Footer /></>} />
         <Route path="/blog/:slug" element={<><BlogPost /><Footer /></>} />
-        <Route path="/admin/blog" element={<BlogAdmin />} />
+        <Route path="/admin/blog" element={<CMS />} />
+        <Route path="/admin" element={<CMS />} />
         <Route path="*" element={<><PageTitle title="Not Found — RCM" /><NotFound /><Footer /></>} />
       </Routes>
       {/* Mini player spacer — prevents content from being hidden behind fixed player */}
