@@ -43,9 +43,9 @@ export function useMetaTags(opts: { title: string; description: string; image?: 
 
 export function shareUrl(url: string, title: string) {
   if (navigator.share) {
-    navigator.share({ title, url }).catch(() => {})
+    navigator.share({ title, text: title, url }).catch(() => {})
   } else {
-    navigator.clipboard.writeText(url).then(() => alert('Link copied!'))
+    navigator.clipboard.writeText(`${title}\n${url}`).then(() => alert('Link copied!'))
   }
 }
 
