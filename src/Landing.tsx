@@ -36,6 +36,14 @@ export function Landing() {
           <p className="text-lg text-gray-600 max-w-xl mx-auto mb-10 leading-relaxed">
             Bible study teachings and prayer sessions to help you deepen your relationship with God through His Word and prayer.
           </p>
+          <div className="flex gap-3 justify-center flex-wrap">
+            <Link to="/bible-study" className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-full font-semibold shadow-lg shadow-accent/20 hover:-translate-y-0.5 transition no-underline">
+              <span className="text-xs">▶</span> Listen to Bible Study
+            </Link>
+            <Link to="/school-of-prayer" className="inline-flex items-center bg-accent/5 border border-accent/10 text-gray-700 px-6 py-3 rounded-full font-semibold hover:bg-accent/10 transition no-underline">
+              🙏 School of Prayer
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -93,9 +101,9 @@ export function Landing() {
           <h2 className="text-3xl font-extrabold mb-2">Never Miss a Teaching</h2>
           <p className="text-gray-600 mb-8 text-lg">Available on all major podcast platforms.</p>
           <div className="flex gap-3 justify-center flex-wrap">
-            {['🎵 Spotify', '🍎 Apple Podcasts', '📺 YouTube', '🎧 Google Podcasts'].map(p => (
-              <a key={p} href="#" className="flex items-center gap-2 px-5 py-3.5 bg-accent-light border border-purple-100/50 rounded-2xl no-underline text-gray-900 font-semibold hover:border-accent/25 hover:-translate-y-0.5 transition shadow-sm">{p}</a>
-            ))}
+            <Link to="/bible-study" className="flex items-center gap-2 px-5 py-3.5 bg-accent-light border border-purple-100/50 rounded-2xl no-underline text-gray-900 font-semibold hover:border-accent/25 hover:-translate-y-0.5 transition shadow-sm">📖 Bible Study Episodes</Link>
+            <Link to="/school-of-prayer" className="flex items-center gap-2 px-5 py-3.5 bg-accent-light border border-purple-100/50 rounded-2xl no-underline text-gray-900 font-semibold hover:border-accent/25 hover:-translate-y-0.5 transition shadow-sm">🙏 School of Prayer</Link>
+            <Link to="/blog" className="flex items-center gap-2 px-5 py-3.5 bg-accent-light border border-purple-100/50 rounded-2xl no-underline text-gray-900 font-semibold hover:border-accent/25 hover:-translate-y-0.5 transition shadow-sm">✍️ Read the Blog</Link>
           </div>
         </div>
       </section>

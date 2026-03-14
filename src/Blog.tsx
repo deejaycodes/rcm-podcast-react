@@ -17,7 +17,7 @@ export function BlogList() {
         <div className="max-w-3xl mx-auto px-5">
           <span className="text-xs font-semibold uppercase tracking-[2.5px] text-accent block mb-1">Blog</span>
           <h1 className="text-4xl font-black mb-2">Articles & Reflections</h1>
-          <p className="text-gray-500 mb-10">Written teachings, devotionals, and reflections on the Word of God.</p>
+          <p className="text-gray-600 mb-10">Written teachings, devotionals, and reflections on the Word of God.</p>
 
           {loading && <p className="text-gray-400 text-sm">Loading posts...</p>}
 
@@ -26,7 +26,7 @@ export function BlogList() {
               <Link key={post.id} to={`/blog/${post.slug}`} className="block p-5 rounded-2xl border border-purple-100/50 bg-accent-light hover:bg-accent-mid hover:border-accent/15 transition no-underline text-gray-900">
                 {post.cover_image && <img src={post.cover_image} alt="" className="w-full h-48 object-cover rounded-xl mb-4" />}
                 <h2 className="text-xl font-extrabold mb-1">{post.title}</h2>
-                <p className="text-sm text-gray-400 mb-2">{new Date(post.created_at).toLocaleDateString('en-NG', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                <p className="text-sm text-gray-500 mb-2">{new Date(post.created_at).toLocaleDateString('en-NG', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 <p className="text-sm text-gray-500 leading-relaxed">{post.excerpt}</p>
               </Link>
             ))}
@@ -35,7 +35,7 @@ export function BlogList() {
           {!posts.length && !loading && (
             <div className="text-center py-12">
               <p className="text-gray-400 mb-2">No posts yet.</p>
-              <p className="text-sm text-gray-300">Articles coming soon!</p>
+              <p className="text-sm text-gray-400">Articles coming soon!</p>
             </div>
           )}
         </div>

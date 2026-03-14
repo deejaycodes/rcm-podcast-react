@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { fetchRSSFeed, Episode } from './rss'
 import { useAudioPlayer } from './useAudioPlayer'
 import { Player } from './Player'
@@ -10,15 +11,17 @@ interface Props {
   rssUrl: string
   accent: string
   icon: string
+  podcastName: string
   verse: { text: string; ref: string }
 }
 
-export function PodcastPage({ title, subtitle, description, rssUrl, accent, icon, verse }: Props) {
+export function PodcastPage({ title, subtitle, rssUrl, icon, podcastName, verse }: Props) {
   const [episodes, setEpisodes] = useState<Episode[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!!rssUrl)
   const player = useAudioPlayer()
 
   useEffect(() => {
+    if (!rssUrl) { setLoading(false); return }
     fetchRSSFeed(rssUrl)
       .then(eps => setEpisodes(eps))
       .catch(() => {})
@@ -27,14 +30,12 @@ export function PodcastPage({ title, subtitle, description, rssUrl, accent, icon
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      {/* Hero */}
-      <section className="relative pt-32 pb-16 text-center overflow-hidden">
+      <section className="relative pt-32 pb-12 text-center overflow-hidden">
         <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[80px] pointer-events-none" />
         <div className="relative max-w-3xl mx-auto px-5">
+          <Link to="/" className="text-accent text-sm font-medium no-underline hover:underline mb-6 inline-block">← Back to Home</Link>
           <div className="text-5xl mb-4">{icon}</div>
-          <h1 className="text-4xl sm:text-5xl font-black leading-[1.1] tracking-tight mb-3">
-            {title}
-          </h1>
+          <h1 className="text-4xl sm:text-5xl font-black leading-[1.1] tracking-tight mb-3">{title}</h1>
           <p className="text-lg text-gray-600 max-w-xl mx-auto mb-6 leading-relaxed">{subtitle}</p>
           <div className="bg-accent/5 border-l-[3px] border-accent rounded-r-xl p-4 max-w-md mx-auto text-left">
             <p className="italic text-gray-700 text-sm leading-relaxed mb-1">"{verse.text}"</p>
@@ -43,15 +44,14 @@ export function PodcastPage({ title, subtitle, description, rssUrl, accent, icon
         </div>
       </section>
 
-      <Player player={player} />
+      <Player player={player} podcastName={podcastName} />
 
-      {/* Episodes */}
-      <section className="py-16">
+      <section className="py-12">
         <div className="max-w-3xl mx-auto px-5">
           <span className="text-xs font-semibold uppercase tracking-[2.5px] text-accent block mb-1">Episodes</span>
           <h2 className="text-3xl font-extrabold mb-8">Recent Teachings</h2>
 
-          {loading && <p className="text-gray-400 text-sm">Loading episodes...</p>}
+          {loading && <p className="text-gray-500 text-sm">Loading episodes...</p>}
 
           <div className="flex flex-col gap-2">
             {episodes.map((ep, i) => (
@@ -85,8 +85,8 @@ export function PodcastPage({ title, subtitle, description, rssUrl, accent, icon
 
           {!episodes.length && !loading && (
             <div className="text-center py-12">
-              <p className="text-gray-400 mb-2">No episodes yet.</p>
-              <p className="text-sm text-gray-300">New teachings coming soon!</p>
+              <p className="text-gray-500 mb-2">No episodes yet.</p>
+              <p className="text-sm text-gray-400">New teachings coming soon!</p>
             </div>
           )}
         </div>
