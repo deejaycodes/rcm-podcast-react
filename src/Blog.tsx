@@ -7,7 +7,7 @@ export function BlogList() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    supabase.from('blog_posts').select('*').eq('published', true).order('created_at', { ascending: false })
+    supabase.from('rcm_blog_posts').select('*').eq('published', true).order('created_at', { ascending: false })
       .then(({ data }) => { if (data) setPosts(data); setLoading(false) })
   }, [])
 
@@ -50,7 +50,7 @@ export function BlogPost() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    supabase.from('blog_posts').select('*').eq('slug', slug).eq('published', true).single()
+    supabase.from('rcm_blog_posts').select('*').eq('slug', slug).eq('published', true).single()
       .then(({ data }) => { if (data) setPost(data); setLoading(false) })
   }, [slug])
 

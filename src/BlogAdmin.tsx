@@ -13,7 +13,7 @@ export function BlogAdmin() {
 
   const ADMIN_PW = import.meta.env.VITE_ADMIN_PASSWORD || 'rcm-admin-2026'
 
-  const load = () => supabase.from('blog_posts').select('*').order('created_at', { ascending: false }).then(({ data }) => { if (data) setPosts(data) })
+  const load = () => supabase.from('rcm_blog_posts').select('*').order('created_at', { ascending: false }).then(({ data }) => { if (data) setPosts(data) })
 
   useEffect(() => { if (authed) load() }, [authed])
 
@@ -34,9 +34,9 @@ export function BlogAdmin() {
     const slug = editing.slug || editing.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || ''
     const data = { ...editing, slug }
     if (editing.id) {
-      await supabase.from('blog_posts').update(data).eq('id', editing.id)
+      await supabase.from('rcm_blog_posts').update(data).eq('id', editing.id)
     } else {
-      await supabase.from('blog_posts').insert(data)
+      await supabase.from('rcm_blog_posts').insert(data)
     }
     setEditing(null)
     load()
@@ -44,7 +44,7 @@ export function BlogAdmin() {
 
   const del = async (id: string) => {
     if (!confirm('Delete this post?')) return
-    await supabase.from('blog_posts').delete().eq('id', id)
+    await supabase.from('rcm_blog_posts').delete().eq('id', id)
     load()
   }
 
