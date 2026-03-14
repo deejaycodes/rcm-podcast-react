@@ -38,7 +38,7 @@ export function CMS() {
   }
 
   return (
-    <div className="min-h-screen bg-[#13111c] flex">
+    <div className="min-h-screen bg-[#13111c] flex overflow-x-hidden">
       {/* Mobile menu toggle */}
       <button onClick={() => setSidebarOpen(!sidebarOpen)}
         className="md:hidden fixed top-4 right-4 z-50 w-10 h-10 bg-accent-dark border border-white/10 rounded-xl flex items-center justify-center text-white text-sm">
@@ -80,7 +80,7 @@ export function CMS() {
       {sidebarOpen && <div className="md:hidden fixed inset-0 z-30 bg-black/50" onClick={() => setSidebarOpen(false)} />}
 
       {/* Main */}
-      <main className="flex-1 min-h-screen">
+      <main className="flex-1 min-h-screen overflow-x-hidden min-w-0">
         <div className="max-w-4xl mx-auto px-5 md:px-8 pt-16 md:pt-16 pb-8 md:pb-10">
           {tab === 'dashboard' && <Dashboard onNav={setTab} />}
           {tab === 'blog' && <AdminBlog />}
