@@ -15,7 +15,7 @@ const TABS = [
 type Tab = typeof TABS[number]['id']
 
 export function CMS() {
-  const [authed, setAuthed] = useState(false)
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem('rcm-admin') === '1')
   const [pw, setPw] = useState('')
   const [tab, setTab] = useState<Tab>('dashboard')
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -25,7 +25,7 @@ export function CMS() {
   if (!authed) {
     return (
       <div className="min-h-screen bg-accent-dark flex items-center justify-center px-5">
-        <form onSubmit={e => { e.preventDefault(); if (pw === ADMIN_PW) setAuthed(true) }} className="text-center w-full max-w-xs">
+        <form onSubmit={e => { e.preventDefault(); if (pw === ADMIN_PW) { sessionStorage.setItem('rcm-admin', '1'); setAuthed(true) } }} className="text-center w-full max-w-xs">
           <div className="w-14 h-14 bg-accent rounded-2xl flex items-center justify-center text-white text-xl mx-auto mb-4">✝</div>
           <h2 className="text-2xl font-extrabold mb-1 text-white">RCM Admin</h2>
           <p className="text-sm text-gray-500 mb-6">Content Management System</p>
