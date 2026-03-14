@@ -48,12 +48,12 @@ export function Player({ player, podcastName = 'Christ Revealed Bible Study Podc
   if (!expanded) {
     return (
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-purple-100/60 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] animate-slide-up">
-        <div className="h-1 bg-gray-100 cursor-pointer relative overflow-hidden" onClick={e => {
+        <div className="h-1.5 bg-gray-100 cursor-pointer relative overflow-hidden" onClick={e => {
           const rect = e.currentTarget.getBoundingClientRect()
           player.seek(((e.clientX - rect.left) / rect.width) * 100)
         }}>
-          <div className="h-full bg-purple-200 absolute left-0 top-0" style={{ width: `${player.buffered}%` }} />
-          <div className="h-full bg-accent absolute left-0 top-0 z-10" style={{ width: `${player.progress}%` }} />
+          <div className="h-full bg-purple-200 absolute left-0 top-0 pointer-events-none" style={{ width: `${player.buffered}%` }} />
+          <div className="h-full bg-accent absolute left-0 top-0 z-10 pointer-events-none" style={{ width: `${player.progress}%` }} />
         </div>
         <div className="max-w-3xl mx-auto px-4 py-2.5 flex items-center gap-3">
           <div className="w-12 h-12 bg-gradient-to-br from-accent to-purple-700 rounded-xl flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 cursor-pointer" onClick={() => setExpanded(true)}>RCM</div>
@@ -89,14 +89,12 @@ export function Player({ player, podcastName = 'Christ Revealed Bible Study Podc
           <p className="text-sm text-gray-600 mb-1">{podcastName}</p>
           {ep.date && <p className="text-xs text-gray-500 mb-5">{ep.date} {ep.duration && `· ${ep.duration}`}</p>}
           <div className="w-full mb-2">
-            <div className="w-full h-2 bg-gray-100 rounded-full cursor-pointer relative overflow-hidden group" onClick={e => {
+            <div className="w-full h-3 bg-gray-100 rounded-full cursor-pointer relative overflow-hidden group" onClick={e => {
               const rect = e.currentTarget.getBoundingClientRect()
               player.seek(((e.clientX - rect.left) / rect.width) * 100)
             }}>
-              <div className="h-full bg-gray-200 absolute rounded-full" style={{ width: `${player.buffered}%` }} />
-              <div className="h-full bg-accent rounded-full relative z-10 transition-all" style={{ width: `${player.progress}%` }}>
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-accent rounded-full shadow-md opacity-0 group-hover:opacity-100 transition" />
-              </div>
+              <div className="h-full bg-gray-200 absolute rounded-full pointer-events-none" style={{ width: `${player.buffered}%` }} />
+              <div className="h-full bg-accent rounded-full relative z-10 transition-all pointer-events-none" style={{ width: `${player.progress}%` }} />
             </div>
             <div className="flex justify-between mt-1.5">
               <span className="text-[11px] text-gray-500 tabular-nums">{player.fmt(player.currentTime)}</span>
