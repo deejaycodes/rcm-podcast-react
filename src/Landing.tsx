@@ -164,10 +164,10 @@ export function Landing({ player }: { player: ReturnType<typeof useAudioPlayer> 
               <span className="text-white text-4xl font-black">DO</span>
             </div>
             <div className="text-center sm:text-left">
-              <span className="text-xs font-semibold uppercase tracking-[2.5px] text-purple-400 block mb-1">Your Host</span>
-              <h2 className="text-3xl font-extrabold mb-3 text-white">Deji Odetayo</h2>
+              <span className="text-xs font-semibold uppercase tracking-[2.5px] text-purple-400 block mb-1">Your Hosts</span>
+              <h2 className="text-3xl font-extrabold mb-3 text-white">Deji & Kemisola</h2>
               <p className="text-gray-400 leading-relaxed mb-4">
-                Founder of Revelation of Christ Ministries. Passionate about helping believers understand God's Word and grow in their walk with Christ through systematic Bible study and prayer.
+                Founders of Revelation of Christ Ministries. Passionate about helping believers understand God's Word and grow in their walk with Christ through systematic Bible study and prayer.
               </p>
               <div className="bg-white/5 border-l-[3px] border-accent rounded-r-xl p-3 text-left inline-block">
                 <p className="italic text-gray-300 text-sm leading-relaxed mb-0.5">"To open their eyes, and to turn them from darkness to light"</p>

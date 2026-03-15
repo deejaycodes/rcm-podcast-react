@@ -245,7 +245,7 @@ export function BlogPost() {
             <div className="flex items-center gap-3 text-sm text-gray-500 flex-wrap">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center text-white text-xs font-bold">DO</div>
-                <span className="font-medium text-gray-700">Deji Odetayo</span>
+                <span className="font-medium text-gray-700">Deji & Kemisola</span>
               </div>
               <span>·</span>
               <span>{formatDate(post.created_at)}</span>
@@ -259,7 +259,7 @@ export function BlogPost() {
           <div className="h-px bg-gray-100 mb-8" />
 
           {/* Content */}
-          <ShareableContent html={post.content} postTitle={post.title} author="Deji Odetayo — RCM" />
+          <ShareableContent html={post.content} postTitle={post.title} author="Deji & Kemisola — RCM" />
 
           <div className="h-px bg-gray-100 mt-10 mb-8" />
 
@@ -267,8 +267,8 @@ export function BlogPost() {
           <div className="flex items-start gap-4 p-5 rounded-2xl bg-accent-light border border-purple-100/50">
             <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">DO</div>
             <div>
-              <p className="font-extrabold mb-0.5">Deji Odetayo</p>
-              <p className="text-sm text-gray-600 leading-relaxed">Founder of Revelation of Christ Ministries. Passionate about helping believers understand God's Word and grow in their walk with Christ.</p>
+              <p className="font-extrabold mb-0.5">Deji & Kemisola</p>
+              <p className="text-sm text-gray-600 leading-relaxed">Founders of Revelation of Christ Ministries. Passionate about helping believers understand God's Word and grow in their walk with Christ.</p>
             </div>
           </div>
 

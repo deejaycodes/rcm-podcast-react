@@ -65,7 +65,7 @@ export function Footer() {
             <span className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center text-white text-xs">✝</span>
             <div>
               <strong className="text-sm block text-white">Revelation of Christ Ministries</strong>
-              <span className="text-xs text-gray-500">Deji Odetayo</span>
+              <span className="text-xs text-gray-500">Deji & Kemisola</span>
             </div>
           </div>
           <div className="flex gap-5 flex-wrap">
